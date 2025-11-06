@@ -9,7 +9,7 @@ use yii\helpers\Url;
             <div class="col-4 d-flex flex-column align-items-center text-center">
                 <img src="<?= Url::base() ?>/assets_web/images/safe-strong.png" class="img-fluid mb-1" style="max-width;100%;" />
                 <small class="text-muted d-block">Update</small>
-                <span class="fw-semibold"><?= @$update ?></span>
+                <small class="text-muted d-block"><?= @$data['updated_at'] ?></small>
 
                 <small class="text-muted d-block" style="font-size: 8px;">Jobsite BIB (Borneo IndoBara)</small>
             </div>

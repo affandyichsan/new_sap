@@ -7,7 +7,8 @@ use app\models\ActionSap;
 use app\models\ActionUser;
 use app\models\ProfileUser;
 use yii\helpers\Url;
-$data = ActionSap::getDataUser(); 
+
+$data = ActionSap::getDataUser();
 ?>
 <div class="sidebar-wrap  sidebar-pushcontent">
     <!-- Add overlay or fullmenu instead overlay -->
@@ -31,8 +32,8 @@ $data = ActionSap::getDataUser();
                                 </figure>
                             </div>
                             <div class="col px-0 align-self-center">
-                                <h5 class="mb-1 text-muted"><?= @$data[2] ?></h5>
-                                <p class="text-muted size-12"><?= @$data['nrp_bib']?></p>
+                                <h6 class="mb-1 text-muted"><?= @$data['nama_karyawan'] ?></h6>
+                                <p class="text-muted size-12"><?= @$data['nrp_bib'] ?></p>
                             </div>
                             <!-- <div class="col-auto">
                                     <button class="btn btn-44 btn-light">
@@ -45,7 +46,8 @@ $data = ActionSap::getDataUser();
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-auto">
-                                    <h6 class="display-7 text-muted">NRP : <?= @Yii::$app->user->identity->nrp ?></h6>
+                                    <p class="text-muted size-12"><?= @$data['departemen'] ?> | <?= @$data['jabatan'] ?></p>
+                                    <h6 class="display-7 text-muted">NRP : <?= @$data['nrp'] ?></h6>
                                 </div>
                                 <div class="col text-end">
                                 </div>
@@ -78,8 +80,7 @@ $data = ActionSap::getDataUser();
             <div class="col-12">
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="<?php //Url::base() 
-                                                                        ?>/site/index">
+                        <a class="nav-link" aria-current="page" href="<?= Url::base() ?>/dashboard/index">
                             <div class="avatar avatar-40 rounded icon">
                                 <i class="icofont-home"></i>
                             </div>
@@ -87,7 +88,7 @@ $data = ActionSap::getDataUser();
                             <div class="arrow"><i class="icofont-curved-right"></i></div>
                         </a>
                     </li>
-                    <!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <div class="avatar avatar-40 rounded icon">
                                 <i class="icofont-handshake-deal"></i>
@@ -98,33 +99,22 @@ $data = ActionSap::getDataUser();
 
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?php //Url::base() 
-                                                                                                ?>/hutang-piutang/index">
+                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/site/index">
                                     <div class="avatar avatar-40 rounded icon"><i class="icofont-listine-dots"></i></div>
-                                    <div class="col">TEST</div>
+                                    <div class="col">Minggu ini</div>
                                     <div class="arrow"><i class="bi bi-chevron-right"></i></div>
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item nav-link" href="<?php //Url::base() 
-                                                                        ?>/hutang-piutang/list-hutang">
+                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/sap-range/perminggu">
                                     <div class="avatar avatar-40 rounded icon"><i class="icofont-arrow-up"></i>
                                     </div>
-                                    <div class="col">TEST 2</div>
-                                    <div class="arrow"><i class="bi bi-chevron-right"></i></div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item nav-link" href="<?php //Url::base() 
-                                                                        ?>/hutang-piutang/list-piutang">
-                                    <div class="avatar avatar-40 rounded icon"><i class="icofont-arrow-down"></i>
-                                    </div>
-                                    <div class="col">TEST 3</div>
+                                    <div class="col">Per-Minggu</div>
                                     <div class="arrow"><i class="bi bi-chevron-right"></i></div>
                                 </a>
                             </li>
                         </ul>
-                    </li> -->
+                    </li>
                     <li class="nav-item">
                         <form id="logout-form" action="<?= Url::to(['site/logout']) ?>" method="post" style="display:none;">
                             <?= \yii\helpers\Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->getCsrfToken()) ?>

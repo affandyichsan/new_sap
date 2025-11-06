@@ -55,6 +55,8 @@ AppAsset::register($this);
     <script defer src="<?= Url::base() ?>/fontawesome/js/brands.js"></script>
     <script defer src="<?= Url::base() ?>/fontawesome/js/solid.js"></script>
     <script defer src="<?= Url::base() ?>/fontawesome/js/fontawesome.js"></script>
+
+    <script src="<?= Url::base() ?>/lotties/js/lottie.min.js"></script>
 </head>
 
 <body class="body-scroll" data-page="index">

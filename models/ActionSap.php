@@ -45,18 +45,71 @@ class ActionSap extends Model
         $data = SapDataView::find()
             ->where(['nrp' => @Yii::$app->user->identity->nrp])
             ->andWhere(['week' => $weekToday])
-            ->andWhere(['tahun'=>date('Y')])
+            ->andWhere(['tahun' => date('Y')])
             ->asArray()
             ->one();
         return $data;
-    
     }
 
-    public static function getDataUser(){
+    public static function getDataUser()
+    {
+        $user = Yii::$app->user->identity ?? null;
+        if (!$user || empty($user->nrp)) {
+            // User belum login atau nrp kosong
+            return null;
+        }
+
         $data = DataKaryawan::find()
-            ->where(['nrp' => @Yii::$app->user->identity->nrp])
+            ->where(['nrp' => $user->nrp])
             ->asArray()
             ->one();
+
+        // Jika data karyawan tidak ditemukan
+        if (!$data || empty($data['jabatan'])) {
+            return $data; // Kembalikan apa adanya (bisa null)
+        }
+
+        $settingPlan = SapSettingPlan::find()
+            ->where(['jabatan' => $data['jabatan']])
+            ->asArray()
+            ->one();
+
+        // Tambahkan field hanya jika $settingPlan ada
+        $data['golongan_jabatan'] = $settingPlan['golongan_jabatan'] ?? null;
+
         return $data;
+    }
+
+
+
+    public static function getPeriodeWeekly()
+    {
+        $data = SapDataView::find()
+            ->where(['nrp' => @Yii::$app->user->identity->nrp])
+            ->andWhere(['tahun' => date('Y')])
+            ->asArray()
+            ->all();
+        return $data;
+    }
+
+
+    public static function getWeekRange($week, $year)
+    {
+        // Buat tanggal berdasarkan ISO week (Senin sebagai default)
+        $dto = new DateTime();
+        $dto->setISODate($year, $week);
+
+        // Geser satu hari ke belakang agar minggu dimulai dari Minggu
+        $dto->modify('-1 day');
+        $startOfWeek = $dto->format('Y-m-d');
+
+        // Akhir minggu = Sabtu (6 hari setelah Minggu)
+        $dto->modify('+6 days');
+        $endOfWeek = $dto->format('Y-m-d');
+
+        return [
+            'start' => $startOfWeek,
+            'end'   => $endOfWeek,
+        ];
     }
 }

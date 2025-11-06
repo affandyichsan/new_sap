@@ -24,7 +24,7 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout','index'],
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,19 +62,30 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
         $data = @ActionSap::getCountDataSAP();
         $cuti = @json_decode($data['note_per_date']);
-        // echo "<pre>";
-        // print_r(Yii::$app->user->isGuest);
-        // print_r($_SESSION);
-        // exit;
-         return $this->render('index', [
+
+        // pastikan data cuti valid array
+        $cutiArray = is_array($cuti) ? $cuti : (array)$cuti;
+
+        if (!empty($cutiArray)) {
+            // ambil semua tanggal
+            $tanggalList = array_column($cutiArray, 'tanggal');
+
+            $cutiStart = min($tanggalList);
+            $cutiEnd   = max($tanggalList);
+        } else {
+            $cutiStart = null;
+            $cutiEnd   = null;
+        }
+
+        return $this->render('index', [
             'data' => $data,
-            'cutiStart' => min((array)$cuti)->tanggal,
-            'cutiEnd' => max((array)$cuti)->tanggal,
+            'cutiStart' => $cutiStart,
+            'cutiEnd' => $cutiEnd,
         ]);
     }
+
 
     /**
      * Login action.
