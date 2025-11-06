@@ -61,8 +61,8 @@ use yii\helpers\Url;
         </div>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>KTA</b></div>
-            <div class="col-4"><?= @$data['kta'] ?></div>
-            <div class="col-4"><?= @$data['kta_a'] ?></div>
+            <div class="col-4"><?= @$data[9] ?></div>
+            <div class="col-4"><?= @$data[10] ?></div>
         </div>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>TTA</b></div>
@@ -98,14 +98,14 @@ use yii\helpers\Url;
         <!-- Progress -->
         <div class="mt-4">
             <label class="form-label fw-semibold">Pencapaian</label>
-            <?php 
-            $total_ach ='';
-            if(@$data['total_ach'] === 'CUTI'){
+            <?php
+            $total_ach = '';
+            if (@$data['total_ach'] === 'CUTI') {
                 $total_ach = 'CUTI';
-            }else{
+            } else {
                 $total_ach = (float)@$data['total_ach'];
             }
-            echo $total_ach.'%';
+            echo $total_ach . '%';
             ?>
             <div class="progress" style="height: 20px;">
                 <div class="progress-bar bg-success fw-bold" role="progressbar" style="width: <?= @$total_ach ?>%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"><?= @$total_ach ?></div>

@@ -66,9 +66,9 @@ use yii\helpers\Url;
                                 <h6> <?= $total_ach ?></h6>
                             </div>
                             <div class="col-auto text-end">
-                                <button class="btn btn-default btn-44 shadow-sm rounded" onclick="window.location.replace('sendmoney.html');">
+                                <a href="<?= Url::base() ?>/sap-range/detail-perminggu?week=<?= $data['week'] ?>" class="btn btn-default btn-44 shadow-sm rounded">
                                     <i class="icofont-list"></i>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </li>

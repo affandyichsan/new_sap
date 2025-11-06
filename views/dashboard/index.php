@@ -14,8 +14,8 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="col align-self-center ps-0">
-        <h6 class="text-color-theme"><span class="fw-normal">Hi</span>, <?= $data['nama_karyawan'] ?></h6>
-        <p class="text-muted" style="font-size: 12px;"><?= $data['departemen'] . ' | ' . $data['jabatan'] . ' | ' . $data['golongan_jabatan'] ?></p>
+        <h6 class="text-color-theme"><span class="fw-normal">Hi</span>, <?= @$data['nama_karyawan'] ?></h6>
+        <p class="text-muted" style="font-size: 12px;"><?= @$data['departemen'] . ' | ' . @$data['jabatan'] . ' | ' . @$data['golongan_jabatan'] ?></p>
     </div>
 </div>
 
@@ -26,7 +26,7 @@ use yii\helpers\Url;
         <h6 class="title">Pencapaian Per-Weekly</h6>
     </div>
     <div class="col-auto">
-        <a href="userlist.html" class="small">View all</a>
+        <a href="<?= Url::base() ?>/sap-range/perminggu" class="small">View all</a>
     </div>
 </div>
 <div class="row mb-3">

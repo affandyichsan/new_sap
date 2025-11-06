@@ -14,7 +14,7 @@ use yii\helpers\Url;
                 <small class="text-muted d-block" style="font-size: 8px;">Jobsite BIB (Borneo IndoBara)</small>
             </div>
             <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
-                <h1 class="display-5 fw-bold text-primary mb-0"><?= @$data['week'] ?></h1>
+                <h1 class="display-5 fw-bold text-primary mb-0"><?= @$data['month'] ?></h1>
                 <small class="text-muted">WEEK</small>
             </div>
             <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
@@ -62,7 +62,7 @@ use yii\helpers\Url;
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>KTA</b></div>
             <div class="col-4"><?= @$data['kta'] ?></div>
-            <div class="col-4"><?= @$data['kta_a'] ?></div>
+            <div class="col-4"><?= @$data['tta'] ?></div>
         </div>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>TTA</b></div>
@@ -98,14 +98,14 @@ use yii\helpers\Url;
         <!-- Progress -->
         <div class="mt-4">
             <label class="form-label fw-semibold">Pencapaian</label>
-            <?php 
-            $total_ach ='';
-            if(@$data['total_ach'] === 'CUTI'){
+            <?php
+            $total_ach = '';
+            if (@$data['total_ach'] === 'CUTI') {
                 $total_ach = 'CUTI';
-            }else{
+            } else {
                 $total_ach = (float)@$data['total_ach'];
             }
-            echo $total_ach.'%';
+            echo $total_ach . '%';
             ?>
             <div class="progress" style="height: 20px;">
                 <div class="progress-bar bg-success fw-bold" role="progressbar" style="width: <?= @$total_ach ?>%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"><?= @$total_ach ?></div>
@@ -114,8 +114,8 @@ use yii\helpers\Url;
 
         <!-- Notes -->
         <div class="alert alert-warning mt-4" role="alert" style="font-size: 12px;">
-            <strong>Target Monitoring dan Pencapaian SAP per Weekly.</strong><br>
-            Hanya berlaku per weekly.
+            <strong>Target Monitoring dan Pencapaian SAP per monthly.</strong><br>
+            Hanya berlaku per monthly.
         </div>
 
         <!-- Footer -->

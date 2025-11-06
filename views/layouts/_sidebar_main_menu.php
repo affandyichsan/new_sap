@@ -46,7 +46,7 @@ $data = ActionSap::getDataUser();
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-auto">
-                                    <p class="text-muted size-12"><?= @$data['departemen'] ?> | <?= @$data['jabatan'] ?></p>
+                                    <p class="text-muted size-12"><?= @$data['departemen'] ?> | <?= @$data['jabatan'] . ' | ' . @$data['golongan_jabatan']?></p>
                                     <h6 class="display-7 text-muted">NRP : <?= @$data['nrp'] ?></h6>
                                 </div>
                                 <div class="col text-end">
@@ -102,6 +102,13 @@ $data = ActionSap::getDataUser();
                                 <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/site/index">
                                     <div class="avatar avatar-40 rounded icon"><i class="icofont-listine-dots"></i></div>
                                     <div class="col">Minggu ini</div>
+                                    <div class="arrow"><i class="bi bi-chevron-right"></i></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/sap-range/detail-perbulan?month=<?= date('m')?>">
+                                    <div class="avatar avatar-40 rounded icon"><i class="icofont-listine-dots"></i></div>
+                                    <div class="col">Bulan ini</div>
                                     <div class="arrow"><i class="bi bi-chevron-right"></i></div>
                                 </a>
                             </li>

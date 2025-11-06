@@ -38,14 +38,32 @@ class ActionSap extends Model
 
         return $weeks;
     }
-    public static function getCountDataSAP()
+    
+    public static function getCountDataSAP($weekToday = null)
     {
-        $week = ActionSap::getWeeksSunToSatThisYear();
-        $weekToday = max($week)['week'];
+        if ($weekToday === null) {
+            $week = ActionSap::getWeeksSunToSatThisYear();
+            $weekToday = max($week)['week'];
+        }
         $data = SapDataView::find()
             ->where(['nrp' => @Yii::$app->user->identity->nrp])
             ->andWhere(['week' => $weekToday])
             ->andWhere(['tahun' => date('Y')])
+            ->asArray()
+            ->one();
+        return $data;
+    }
+
+    public static function getCountDataSAPMonthly($monthlyDay = null, $year = null)
+    {
+        if ($monthlyDay === null) {
+            $month = SapDataViewMonthly::find()->select('month')->where(['nrp' => @Yii::$app->user->identity->nrp])->andWhere(['year' => date('Y')])->asArray()->all();
+            $monthlyDay = max($month)['month'];
+        }
+        $data = SapDataViewMonthly::find()
+            ->where(['nrp' => @Yii::$app->user->identity->nrp])
+            ->andWhere(['month' => @$monthlyDay])
+            ->andWhere(['year' => @$year])
             ->asArray()
             ->one();
         return $data;
@@ -85,6 +103,15 @@ class ActionSap extends Model
     public static function getPeriodeWeekly()
     {
         $data = SapDataView::find()
+            ->where(['nrp' => @Yii::$app->user->identity->nrp])
+            ->andWhere(['tahun' => date('Y')])
+            ->asArray()
+            ->all();
+        return $data;
+    }
+    public static function getPeriodeMonthly()
+    {
+        $data = SapDataViewMonthly::find()
             ->where(['nrp' => @Yii::$app->user->identity->nrp])
             ->andWhere(['tahun' => date('Y')])
             ->asArray()
