@@ -61,19 +61,27 @@ use yii\helpers\Url;
         </div>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>KTA</b></div>
-            <div class="col-4"><?= @$data[9] ?></div>
-            <div class="col-4"><?= @$data[10] ?></div>
+            <div class="col-4"><?= @$data['kta'] ?></div>
+            <div class="col-4"><?= @$data['tta'] ?></div>
         </div>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>TTA</b></div>
             <div class="col-4"><?= @$data['tta'] ?></div>
             <div class="col-4"><?= @$data['tta_a'] ?></div>
         </div>
+        <?php if($data['opk_detail'] == null) { ?>      
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>Observasi</b></div>
             <div class="col-4"><?= @$data['obs'] ?></div>
             <div class="col-4"><?= @$data['obs_a'] ?></div>
         </div>
+        <?php }else{ ?>
+            <div class="row text-center py-2 border-bottom">
+            <div class="col-4"><b>OPK</b></div>
+            <div class="col-4"><?= @$data['opk'] ?></div>
+            <div class="col-4"><?= @$data['opk_a'] ?></div>
+        </div>
+        <?php } ?>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>Inspeksi</b></div>
             <div class="col-4"><?= @$data['ins'] ?></div>

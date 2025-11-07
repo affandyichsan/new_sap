@@ -16,7 +16,7 @@ use yii\helpers\Url;
             </div> -->
         </div>
         <div class="col-auto">
-            <a href="<?= Url::base()?>/profile-user/index" target="_self" class="btn btn-light btn-44 rounded">
+            <a href="<?= Url::base()?>/data-karyawan/index" target="_self" class="btn btn-light btn-44 rounded">
                 <i class="icofont-user-alt-7"></i>
                 <span class="count-indicator"></span>
             </a>

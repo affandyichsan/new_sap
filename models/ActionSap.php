@@ -38,7 +38,7 @@ class ActionSap extends Model
 
         return $weeks;
     }
-    
+
     public static function getCountDataSAP($weekToday = null)
     {
         if ($weekToday === null) {
@@ -105,6 +105,7 @@ class ActionSap extends Model
         $data = SapDataView::find()
             ->where(['nrp' => @Yii::$app->user->identity->nrp])
             ->andWhere(['tahun' => date('Y')])
+            ->orderBy(['week' => SORT_DESC])
             ->asArray()
             ->all();
         return $data;
@@ -113,7 +114,7 @@ class ActionSap extends Model
     {
         $data = SapDataViewMonthly::find()
             ->where(['nrp' => @Yii::$app->user->identity->nrp])
-            ->andWhere(['tahun' => date('Y')])
+            ->andWhere(['year' => date('Y')])
             ->asArray()
             ->all();
         return $data;
@@ -138,5 +139,19 @@ class ActionSap extends Model
             'start' => $startOfWeek,
             'end'   => $endOfWeek,
         ];
+    }
+
+    public static function getStartEndOfMonth($month)
+    {
+        for ($i = 1; $i <= 12; $i++) {
+            $start = date("Y-$month-01");
+            $end   = date("Y-$month-t", strtotime($start));
+            $months[] = [
+                'month' => $month,
+                'start' => $start,
+                'end'   => $end
+            ];
+        }
+        return $months;
     }
 }

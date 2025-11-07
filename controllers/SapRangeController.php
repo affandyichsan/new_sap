@@ -53,9 +53,9 @@ class SapRangeController extends \yii\web\Controller
     // =========================================================================================================================================
     public function actionPerbulan()
     {
-        $listWeek   = ActionSap::getPeriodeMonthly();
-        return $this->render('index', [
-            'listWeek' => $listWeek
+        $listmonth   = ActionSap::getPeriodeMonthly();
+        return $this->render('index_monthly', [
+            'listmonth' => $listmonth
         ]);
     }
     
@@ -84,7 +84,7 @@ class SapRangeController extends \yii\web\Controller
                 'cutiEnd' => $cutiEnd,
             ]);
         } else {
-            return $this->render('perminggu', [
+            return $this->render('perbulan', [
                 'data' => $data,
                 'cutiStart' => $cutiStart,
                 'cutiEnd' => $cutiEnd,

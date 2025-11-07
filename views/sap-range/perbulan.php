@@ -15,7 +15,7 @@ use yii\helpers\Url;
             </div>
             <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
                 <h1 class="display-5 fw-bold text-primary mb-0"><?= @$data['month'] ?></h1>
-                <small class="text-muted">WEEK</small>
+                <small class="text-muted">MONTH</small>
             </div>
             <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
                 <img src="<?= Url::base() ?>/assets_web/images/logo-PPA.png" class="img-fluid mb-1" style="max-width: 60px;" />
@@ -53,7 +53,7 @@ use yii\helpers\Url;
         </div>
 
         <!-- Target -->
-        <h5 class="fw-bold mb-3">Target Per Week</h5>
+        <h5 class="fw-bold mb-3">Target Per month</h5>
         <div class="row text-center fw-semibold border-bottom pb-2">
             <div class="col-4"><b>Kategori</b></div>
             <div class="col-4"><b>Target</b></div>
@@ -69,11 +69,19 @@ use yii\helpers\Url;
             <div class="col-4"><?= @$data['tta'] ?></div>
             <div class="col-4"><?= @$data['tta_a'] ?></div>
         </div>
+        <?php if($data['opk_detail'] == null) { ?>      
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>Observasi</b></div>
             <div class="col-4"><?= @$data['obs'] ?></div>
             <div class="col-4"><?= @$data['obs_a'] ?></div>
         </div>
+        <?php }else{ ?>
+            <div class="row text-center py-2 border-bottom">
+            <div class="col-4"><b>OPK</b></div>
+            <div class="col-4"><?= @$data['opk'] ?></div>
+            <div class="col-4"><?= @$data['opk_a'] ?></div>
+        </div>
+        <?php } ?>
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>Inspeksi</b></div>
             <div class="col-4"><?= @$data['ins'] ?></div>

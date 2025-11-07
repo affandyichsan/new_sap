@@ -120,6 +120,14 @@ $data = ActionSap::getDataUser();
                                     <div class="arrow"><i class="bi bi-chevron-right"></i></div>
                                 </a>
                             </li>
+                            <li>
+                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/sap-range/perbulan">
+                                    <div class="avatar avatar-40 rounded icon"><i class="icofont-arrow-up"></i>
+                                    </div>
+                                    <div class="col">Per-Bulan</div>
+                                    <div class="arrow"><i class="bi bi-chevron-right"></i></div>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
