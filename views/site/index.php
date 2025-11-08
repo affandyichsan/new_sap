@@ -73,7 +73,7 @@ use yii\helpers\Url;
             <div class="col-4"><?= @$data['tta'] ?></div>
             <div class="col-4"><?= @$data['tta_a'] ?></div>
         </div>
-        <?php if($data['opk_detail'] == null) { ?>      
+        <?php if(@$data['opk_detail'] == null) { ?>      
         <div class="row text-center py-2 border-bottom">
             <div class="col-4"><b>Observasi</b></div>
             <div class="col-4"><?= @$data['obs'] ?></div>

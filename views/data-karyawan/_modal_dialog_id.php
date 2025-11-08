@@ -8,7 +8,7 @@ use yii\helpers\Url;
 <div class="modal fade" id="exampleModal<?= $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="<?= Url::base() ?>/user/updatepassworduser?id=<?= $id ?>" method="POST">
+            <form action="<?= Url::base() ?>/data-karyawan/updatepassworduser?id=<?= $id ?>" method="POST">
                 <?= Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken) ?>
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="bi bi-shield-lock-fill"></i> Ubah Password</h1>
@@ -23,7 +23,8 @@ use yii\helpers\Url;
                                     <div class="input-group">
                                         <input type="password" id="user-old-password-<?= $id ?>" class="form-control" name="User[oldPassword]" maxlength="255" value="<?= $password ?>" disabled>
                                         <button class="btn btn-outline-secondary rounded" type="button" onclick="togglePassword('user-old-password-<?= $id ?>', 'toggleOldPassword-<?= $id ?>')">
-                                            <i class="bi bi-eye-fill" id="toggleOldPassword-<?= $id ?>"></i>
+                                            <i class="icofont-eye-alt" id="toggleOldPassword-<?= $id ?>"></i>
+                                            
                                         </button>
                                     </div>
                                 </div>
@@ -34,7 +35,7 @@ use yii\helpers\Url;
                                     <div class="input-group">
                                         <input type="password" id="user-new-password-<?= $id ?>" class="form-control" name="User[newPassword]" maxlength="255">
                                         <button class="btn btn-outline-secondary rounded" type="button" onclick="togglePassword('user-new-password-<?= $id ?>', 'toggleNewPassword-<?= $id ?>')">
-                                            <i class="bi bi-eye-fill" id="toggleNewPassword-<?= $id ?>"></i>
+                                            <i class="icofont-eye-alt" id="toggleNewPassword-<?= $id ?>"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -43,7 +44,7 @@ use yii\helpers\Url;
                                     <div class="input-group">
                                         <input type="password" id="user-confirm-password-<?= $id ?>" class="form-control" name="User[confrimPassword]" maxlength="255">
                                         <button class="btn btn-outline-secondary rounded" type="button" onclick="togglePassword('user-confirm-password-<?= $id ?>', 'toggleConfirmPassword-<?= $id ?>')">
-                                            <i class="bi bi-eye-fill" id="toggleConfirmPassword-<?= $id ?>"></i>
+                                            <i class="icofont-eye-alt" id="toggleConfirmPassword-<?= $id ?>"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -55,12 +56,12 @@ use yii\helpers\Url;
 
                                     if (passwordInput.type === 'password') {
                                         passwordInput.type = 'text';
-                                        toggleIcon.classList.remove('bi-eye-fill');
-                                        toggleIcon.classList.add('bi-eye-slash-fill');
+                                        toggleIcon.classList.remove('icofont-eye-alt');
+                                        toggleIcon.classList.add('icofont-eye-blocked');
                                     } else {
                                         passwordInput.type = 'password';
-                                        toggleIcon.classList.remove('bi-eye-slash-fill');
-                                        toggleIcon.classList.add('bi-eye-fill');
+                                        toggleIcon.classList.remove('icofont-eye-blocked');
+                                        toggleIcon.classList.add('icofont-eye-alt');
                                     }
                                 }
                             </script>

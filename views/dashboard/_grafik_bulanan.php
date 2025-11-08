@@ -2,7 +2,6 @@
 
 use yii\helpers\Url;
 ?>
-<!-- <div id="chart-container"></div> -->
 <script>
     var domMonth = document.getElementById("chart-container");
     var myChartMonth = echarts.init(domMonth, null, {
@@ -10,30 +9,56 @@ use yii\helpers\Url;
         useDirtyRect: false
     });
 
-    // Fungsi ambil data dari REST API
     async function loadChartDataMonth() {
         try {
             const response = await fetch("<?= Url::base() ?>/rest/grafik/get-data-grafik");
             const data = await response.json();
 
-            // Pastikan struktur data API seperti:
-            // { "labels": ["Mon","Tue","Wed"], "values": [120,200,150] }
-
             var option = {
-                tooltip: {},
+                tooltip: {
+                    trigger: "axis",
+                    axisPointer: { type: "shadow" }
+                },
                 xAxis: {
                     type: "category",
-                    data: data.month || [] // ambil label dari API
+                    data: data.month || [],
+                    axisLabel: {
+                        rotate: 45,
+                        fontSize: 11
+                    }
                 },
                 yAxis: {
-                    type: "value"
+                    type: "value",
+                    axisLabel: {
+                        formatter: "{value}%" // tampilkan sumbu Y dalam persen
+                    }
                 },
                 series: [{
                     name: "Total Achievements",
-                    data: data.total_ach || [], // ambil nilai dari API
+                    data: data.total_ach || [],
                     type: "bar",
                     itemStyle: {
-                        borderRadius: [5, 5, 0, 0]
+                        borderRadius: [5, 5, 0, 0],
+                        color: function(params) {
+                            const value = params.value;
+                            if (value > 95) {
+                                return "#28a745"; // bg-success (green)
+                            } else if (value > 60) {
+                                return "#007bff"; // bg-primary (blue)
+                            } else if (value > 50) {
+                                return "#ffc107"; // bg-warning (yellow)
+                            } else {
+                                return "#dc3545"; // bg-danger (red)
+                            }
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: "top",
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        formatter: "{c}%" // tambahkan tanda persen di atas batang
                     }
                 }]
             };

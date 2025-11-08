@@ -110,16 +110,6 @@ use yii\helpers\Url;
                         <?php } ?>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <h6 class="title">Grafik Total Achievements per Bulan</h6>
-                    </div>
-                    <div class="col-auto">
-                        <a href="<?= Url::base() ?>/sap-range/perminggu" class="small">View all</a>
-                    </div>
-                </div>
-
-                <div id="chart-container"></div>
 
                 <div class="row">
                     <div class="col">
@@ -127,6 +117,16 @@ use yii\helpers\Url;
                     </div>
                     <div class="col-auto">
                         <a href="<?= Url::base() ?>/sap-range/perbulan" class="small">View all</a>
+                    </div>
+                </div>
+                <div id="chart-container"></div>
+
+                <div class="row">
+                    <div class="col">
+                        <h6 class="title">Grafik Total Achievements per Bulan</h6>
+                    </div>
+                    <div class="col-auto">
+                        <a href="<?= Url::base() ?>/sap-range/perminggu" class="small">View all</a>
                     </div>
                 </div>
                 <div id="chart-container-week"></div>
