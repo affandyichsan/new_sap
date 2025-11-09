@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$helpers    = require __DIR__ . '/helpers.php';
 
 $config = [
     'id' => 'basic',
@@ -11,7 +12,20 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'gridview' => [
+            'class' => '\kartik\grid\Module',
+            'bsVersion' => '5.x', // Ganti sesuai versi bootstrap kamu
+        ],
+    ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'kartik\base\BootstrapAsset' => [
+                    'bsVersion' => '5.x', // atau '4.x' atau '3.x'
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '4MgGD6BQxqJxNwlQ3uQ6giTpj7yEZOuS',
@@ -45,10 +59,9 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
-        
+
     ],
     'params' => $params,
 ];

@@ -13,9 +13,14 @@ use Yii;
  * @property string $jenis_reconcile
  * @property string $week
  * @property string $bulan
+ * @property string $approvment_departement
+ * @property string $approvment_she
+ * @property string $approvment_final
+ * @property int|null $approval_departement
+ * @property int|null $approval_she
+ * @property int|null $final_approval
  * @property string $created_at
  * @property string $updated_at
- * @property string $approvment
  */
 class SapReconcile extends \yii\db\ActiveRecord
 {
@@ -23,10 +28,18 @@ class SapReconcile extends \yii\db\ActiveRecord
     /**
      * ENUM field values
      */
-    const APPROVMENT_PENDING = 'pending';
-    const APPROVMENT_APPROVED = 'approved';
-    const APPROVMENT_REJECTED = 'rejected';
-    const APPROVMENT_REVISED = 'revised';
+    const APPROVMENT_DEPARTEMENT_PENDING = 'pending';
+    const APPROVMENT_DEPARTEMENT_APPROVED = 'approved';
+    const APPROVMENT_DEPARTEMENT_REJECTED = 'rejected';
+    const APPROVMENT_DEPARTEMENT_REVISED = 'revised';
+    const APPROVMENT_SHE_PENDING = 'pending';
+    const APPROVMENT_SHE_APPROVED = 'approved';
+    const APPROVMENT_SHE_REJECTED = 'rejected';
+    const APPROVMENT_SHE_REVISED = 'revised';
+    const APPROVMENT_FINAL_PENDING = 'pending';
+    const APPROVMENT_FINAL_APPROVED = 'approved';
+    const APPROVMENT_FINAL_REJECTED = 'rejected';
+    const APPROVMENT_FINAL_REVISED = 'revised';
 
     /**
      * {@inheritdoc}
@@ -42,14 +55,18 @@ class SapReconcile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['approvment'], 'default', 'value' => 'pending'],
-            [['id_sap_user', 'reconcile_json', 'jenis_reconcile', 'week', 'bulan', 'created_at', 'updated_at'], 'required'],
-            [['id_sap_user'], 'integer'],
-            [['reconcile_json', 'approvment'], 'string'],
+            [['approval_departement', 'approval_she', 'final_approval'], 'default', 'value' => null],
+            [['approvment_final'], 'default', 'value' => 'pending'],
+            [['updated_at'], 'default', 'value' => 'now()'],
+            [['id_sap_user', 'reconcile_json', 'jenis_reconcile', 'week', 'bulan'], 'required'],
+            [['id_sap_user', 'approval_departement', 'approval_she', 'final_approval'], 'integer'],
+            [['reconcile_json', 'approvment_departement', 'approvment_she', 'approvment_final'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['jenis_reconcile'], 'string', 'max' => 255],
             [['week', 'bulan'], 'string', 'max' => 50],
-            ['approvment', 'in', 'range' => array_keys(self::optsApprovment())],
+            ['approvment_departement', 'in', 'range' => array_keys(self::optsApprovmentDepartement())],
+            ['approvment_she', 'in', 'range' => array_keys(self::optsApprovmentShe())],
+            ['approvment_final', 'in', 'range' => array_keys(self::optsApprovmentFinal())],
         ];
     }
 
@@ -65,84 +82,237 @@ class SapReconcile extends \yii\db\ActiveRecord
             'jenis_reconcile' => 'Jenis Reconcile',
             'week' => 'Week',
             'bulan' => 'Bulan',
+            'approvment_departement' => 'Approvment Departement',
+            'approvment_she' => 'Approvment She',
+            'approvment_final' => 'Approvment Final',
+            'approval_departement' => 'Approval Departement',
+            'approval_she' => 'Approval She',
+            'final_approval' => 'Final Approval',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'approvment' => 'Approvment',
         ];
     }
 
 
     /**
-     * column approvment ENUM value labels
+     * column approvment_departement ENUM value labels
      * @return string[]
      */
-    public static function optsApprovment()
+    public static function optsApprovmentDepartement()
     {
         return [
-            self::APPROVMENT_PENDING => 'pending',
-            self::APPROVMENT_APPROVED => 'approved',
-            self::APPROVMENT_REJECTED => 'rejected',
-            self::APPROVMENT_REVISED => 'revised',
+            self::APPROVMENT_DEPARTEMENT_PENDING => 'pending',
+            self::APPROVMENT_DEPARTEMENT_APPROVED => 'approved',
+            self::APPROVMENT_DEPARTEMENT_REJECTED => 'rejected',
+            self::APPROVMENT_DEPARTEMENT_REVISED => 'revised',
+        ];
+    }
+
+    /**
+     * column approvment_she ENUM value labels
+     * @return string[]
+     */
+    public static function optsApprovmentShe()
+    {
+        return [
+            self::APPROVMENT_SHE_PENDING => 'pending',
+            self::APPROVMENT_SHE_APPROVED => 'approved',
+            self::APPROVMENT_SHE_REJECTED => 'rejected',
+            self::APPROVMENT_SHE_REVISED => 'revised',
+        ];
+    }
+
+    /**
+     * column approvment_final ENUM value labels
+     * @return string[]
+     */
+    public static function optsApprovmentFinal()
+    {
+        return [
+            self::APPROVMENT_FINAL_PENDING => 'pending',
+            self::APPROVMENT_FINAL_APPROVED => 'approved',
+            self::APPROVMENT_FINAL_REJECTED => 'rejected',
+            self::APPROVMENT_FINAL_REVISED => 'revised',
         ];
     }
 
     /**
      * @return string
      */
-    public function displayApprovment()
+    public function displayApprovmentDepartement()
     {
-        return self::optsApprovment()[$this->approvment];
+        return self::optsApprovmentDepartement()[$this->approvment_departement];
     }
 
     /**
      * @return bool
      */
-    public function isApprovmentPending()
+    public function isApprovmentDepartementPending()
     {
-        return $this->approvment === self::APPROVMENT_PENDING;
+        return $this->approvment_departement === self::APPROVMENT_DEPARTEMENT_PENDING;
     }
 
-    public function setApprovmentToPending()
+    public function setApprovmentDepartementToPending()
     {
-        $this->approvment = self::APPROVMENT_PENDING;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isApprovmentApproved()
-    {
-        return $this->approvment === self::APPROVMENT_APPROVED;
-    }
-
-    public function setApprovmentToApproved()
-    {
-        $this->approvment = self::APPROVMENT_APPROVED;
+        $this->approvment_departement = self::APPROVMENT_DEPARTEMENT_PENDING;
     }
 
     /**
      * @return bool
      */
-    public function isApprovmentRejected()
+    public function isApprovmentDepartementApproved()
     {
-        return $this->approvment === self::APPROVMENT_REJECTED;
+        return $this->approvment_departement === self::APPROVMENT_DEPARTEMENT_APPROVED;
     }
 
-    public function setApprovmentToRejected()
+    public function setApprovmentDepartementToApproved()
     {
-        $this->approvment = self::APPROVMENT_REJECTED;
+        $this->approvment_departement = self::APPROVMENT_DEPARTEMENT_APPROVED;
     }
 
     /**
      * @return bool
      */
-    public function isApprovmentRevised()
+    public function isApprovmentDepartementRejected()
     {
-        return $this->approvment === self::APPROVMENT_REVISED;
+        return $this->approvment_departement === self::APPROVMENT_DEPARTEMENT_REJECTED;
     }
 
-    public function setApprovmentToRevised()
+    public function setApprovmentDepartementToRejected()
     {
-        $this->approvment = self::APPROVMENT_REVISED;
+        $this->approvment_departement = self::APPROVMENT_DEPARTEMENT_REJECTED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentDepartementRevised()
+    {
+        return $this->approvment_departement === self::APPROVMENT_DEPARTEMENT_REVISED;
+    }
+
+    public function setApprovmentDepartementToRevised()
+    {
+        $this->approvment_departement = self::APPROVMENT_DEPARTEMENT_REVISED;
+    }
+
+    /**
+     * @return string
+     */
+    public function displayApprovmentShe()
+    {
+        return self::optsApprovmentShe()[$this->approvment_she];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentShePending()
+    {
+        return $this->approvment_she === self::APPROVMENT_SHE_PENDING;
+    }
+
+    public function setApprovmentSheToPending()
+    {
+        $this->approvment_she = self::APPROVMENT_SHE_PENDING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentSheApproved()
+    {
+        return $this->approvment_she === self::APPROVMENT_SHE_APPROVED;
+    }
+
+    public function setApprovmentSheToApproved()
+    {
+        $this->approvment_she = self::APPROVMENT_SHE_APPROVED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentSheRejected()
+    {
+        return $this->approvment_she === self::APPROVMENT_SHE_REJECTED;
+    }
+
+    public function setApprovmentSheToRejected()
+    {
+        $this->approvment_she = self::APPROVMENT_SHE_REJECTED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentSheRevised()
+    {
+        return $this->approvment_she === self::APPROVMENT_SHE_REVISED;
+    }
+
+    public function setApprovmentSheToRevised()
+    {
+        $this->approvment_she = self::APPROVMENT_SHE_REVISED;
+    }
+
+    /**
+     * @return string
+     */
+    public function displayApprovmentFinal()
+    {
+        return self::optsApprovmentFinal()[$this->approvment_final];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentFinalPending()
+    {
+        return $this->approvment_final === self::APPROVMENT_FINAL_PENDING;
+    }
+
+    public function setApprovmentFinalToPending()
+    {
+        $this->approvment_final = self::APPROVMENT_FINAL_PENDING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentFinalApproved()
+    {
+        return $this->approvment_final === self::APPROVMENT_FINAL_APPROVED;
+    }
+
+    public function setApprovmentFinalToApproved()
+    {
+        $this->approvment_final = self::APPROVMENT_FINAL_APPROVED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentFinalRejected()
+    {
+        return $this->approvment_final === self::APPROVMENT_FINAL_REJECTED;
+    }
+
+    public function setApprovmentFinalToRejected()
+    {
+        $this->approvment_final = self::APPROVMENT_FINAL_REJECTED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApprovmentFinalRevised()
+    {
+        return $this->approvment_final === self::APPROVMENT_FINAL_REVISED;
+    }
+
+    public function setApprovmentFinalToRevised()
+    {
+        $this->approvment_final = self::APPROVMENT_FINAL_REVISED;
     }
 }

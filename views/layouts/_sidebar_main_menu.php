@@ -46,7 +46,7 @@ $data = ActionSap::getDataUser();
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-auto">
-                                    <p class="text-muted size-12"><?= @$data['departemen'] ?> | <?= @$data['jabatan'] . ' | ' . @$data['golongan_jabatan']?></p>
+                                    <p class="text-muted size-12"><?= @$data['departemen'] ?> | <?= @$data['jabatan'] . ' | ' . @$data['golongan_jabatan'] ?></p>
                                     <h6 class="display-7 text-muted">NRP : <?= @$data['nrp'] ?></h6>
                                 </div>
                                 <div class="col text-end">
@@ -106,7 +106,7 @@ $data = ActionSap::getDataUser();
                                 </a>
                             </li>
                             <li>
-                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/sap-range/detail-perbulan?month=<?= date('m')?>">
+                                <a class="nav-link dropdown-toggle" aria-current="page" href="<?= Url::base() ?>/sap-range/detail-perbulan?month=<?= date('m') ?>">
                                     <div class="avatar avatar-40 rounded icon"><i class="icofont-listine-dots"></i></div>
                                     <div class="col">Bulan ini</div>
                                     <div class="arrow"><i class="bi bi-chevron-right"></i></div>
@@ -129,6 +129,16 @@ $data = ActionSap::getDataUser();
                                 </a>
                             </li>
                         </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="<?= Url::base() ?>/sap-reconcile/index">
+                            <div class="avatar avatar-40 rounded icon">
+                                <i class="icofont-home"></i>
+                            </div>
+                            <div class="col">Reconsile</div>
+                            <div class="arrow"><i class="icofont-curved-right"></i></div>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <form id="logout-form" action="<?= Url::to(['site/logout']) ?>" method="post" style="display:none;">
