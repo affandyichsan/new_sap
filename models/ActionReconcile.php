@@ -51,4 +51,25 @@ class ActionReconcile extends Model
         ];
         return $namaBulan[(int)$angkaBulan] ?? '-';
     }
+
+    public static function normalizeFilesArray($filesInput)
+    {
+        $normalized = [];
+        // pastikan ada key 'name' dan berupa array
+        if (!isset($filesInput['name']) || !is_array($filesInput['name'])) {
+            return $normalized;
+        }
+
+        foreach ($filesInput['name'] as $i => $name) {
+            $normalized[] = [
+                'name'     => $name,
+                'type'     => $filesInput['type'][$i] ?? '',
+                'tmp_name' => $filesInput['tmp_name'][$i] ?? '',
+                'error'    => $filesInput['error'][$i] ?? 0,
+                'size'     => $filesInput['size'][$i] ?? 0,
+            ];
+        }
+
+        return $normalized;
+    }
 }

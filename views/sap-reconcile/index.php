@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <!-- Tombol Detail -->
                         <div>
-                            <a href="<?= Url::to(['/sap-range/detail-perminggu', 'week' => $model['week']]) ?>" 
+                            <a href="<?= Url::to(['/sap-reconcile/view?id_sap_reconcile='.$model->id_sap_reconcile.'']) ?>" 
                                class="btn btn-light border rounded-3 shadow-sm p-2" 
                                style="width: 36px; height: 36px; display:flex; align-items:center; justify-content:center;">
                                 <i class="icofont-list text-primary" style="font-size: 16px;"></i>

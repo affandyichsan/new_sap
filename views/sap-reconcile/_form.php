@@ -19,7 +19,7 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
 <div class="card border-0 shadow-sm rounded-2">
     <div class="card-body">
         <div class="sap-reconcile-form">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
             <!-- Jenis Reconcile -->
             <?= $form->field($model, 'jenis_reconcile')->dropDownList([
@@ -48,29 +48,43 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
                 ])->label(false) ?>
             </div>
 
+            <!-- Upload Gambar (SAP) -->
+            <div id="field-sap-images">
+                <label class="fw-semibold mb-2">Upload Gambar SAP</label>
+                <div id="sap-image-container">
+                    <div class="row sap-image-item mb-2">
+                        <div class="col-md-10 col-12 mb-2 mb-md-0">
+                            <input type="file" name="sap_images[]" accept="image/*" class="form-control shadow-sm rounded-top">
+                            <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-image w-100 text-white">
+                                <i class="icofont-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 mt-2 mb-3" id="add-image">+ Tambah Gambar</button>
+            </div>
+
             <!-- Multiple Input (Roster) -->
             <div id="field-roster-inputs">
                 <label class="fw-semibold mb-2">Tanggal Roster</label>
                 <div id="roster-container">
                     <div class="row roster-item mb-2">
                         <div class="col-md-10 col-12 mb-2 mb-md-0">
-                            <input type="text" name="reconcile_json[]" class="form-control shadow-sm rounded-top roster-date" placeholder="hh / bb / tttt">
-                        </div>
-                        <div class="col-md-2 col-12">
-                            <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-item w-100 text-white" style="margin-top: -15px;">
+                            <input type="date" name="reconcile_json[]" class="form-control shadow-sm rounded-top roster-date" placeholder="hh / bb / tttt">
+                            <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-item w-100 text-white">
                                 <i class="icofont-trash"></i> Hapus
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <?= Html::dropDownList("RosterData[][pos_unit]", '', [
+                <?= Html::dropDownList("RosterData[kegiatan]", '', [
                     'cuti'          => 'CUTI',
                     'tugas_luar'    => 'TUGAS LUAR',
                     'traning'       => 'TRANING',
                 ], [
                     'class' => 'form-select shadow-sm rounded-2 mt-3',
-                    'prompt' => '- Pilih POS Unit -'
+                    'prompt' => '- Pilih Kegiatan -'
                 ]) ?>
 
                 <button type="button" class="btn btn-outline-primary btn-sm rounded-2 mt-3 mb-2" id="add-item">+ Tambah Tanggal</button>
@@ -104,12 +118,15 @@ function toggleFields() {
     if (jenis === 'sap') {
         $('#field-sub-jenis').show();
         $('#field-roster-inputs').hide();
+        $('#field-sap-images').show();
     } else if (jenis === 'roster') {
         $('#field-roster-inputs').show();
         $('#field-sub-jenis').hide();
+        $('#field-sap-images').hide();
     } else {
         $('#field-sub-jenis').hide();
         $('#field-roster-inputs').hide();
+        $('#field-sap-images').hide();
     }
 }
 
@@ -122,26 +139,43 @@ function initFlatpickr() {
     });
 }
 
-// Tambah baris baru
+// Tambah baris baru roster
 $('#add-item').on('click', function() {
     var newRow = `
         <div class="row roster-item mb-2">
             <div class="col-md-10 col-12 mb-2 mb-md-0">
-                <input type="text" name="reconcile_json[]" class="form-control shadow-sm rounded-top roster-date" placeholder="hh / bb / tttt">
-            </div>
-            <div class="col-md-2 col-12">
-                <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-item w-100 text-white" style="margin-top: -15px;">
+                <input type="date" name="reconcile_json[]" class="form-control shadow-sm rounded-top roster-date" placeholder="hh / bb / tttt">
+                <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-item w-100 text-white">
                     <i class="icofont-trash"></i> Hapus
                 </button>
             </div>
         </div>`;
     $('#roster-container').append(newRow);
-    initFlatpickr(); // aktifkan flatpickr untuk input baru
+    initFlatpickr();
 });
 
-// Hapus baris
+// Tambah baris baru gambar SAP
+$('#add-image').on('click', function() {
+    var newImage = `
+        <div class="row sap-image-item mb-2">
+            <div class="col-md-10 col-12 mb-2 mb-md-0">
+                <input type="file" name="sap_images[]" accept="image/*" class="form-control shadow-sm rounded-top">
+                <button type="button" class="btn btn-danger btn-sm rounded-bottom remove-image w-100 text-white">
+                    <i class="icofont-trash"></i> Hapus
+                </button>
+            </div>
+        </div>`;
+    $('#sap-image-container').append(newImage);
+});
+
+// Hapus baris roster
 $(document).on('click', '.remove-item', function() {
     $(this).closest('.roster-item').remove();
+});
+
+// Hapus baris gambar SAP
+$(document).on('click', '.remove-image', function() {
+    $(this).closest('.sap-image-item').remove();
 });
 
 // Jalankan saat halaman load & setiap perubahan

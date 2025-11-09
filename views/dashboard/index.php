@@ -83,19 +83,17 @@ use yii\helpers\Url;
                             <div class="swiper-slide">
                                 <div class="card <?= @$bg ?>">
                                     <div class="card-body ">
-                                        <div class="row mb-3">
-                                            <div class="col-auto align-self-center">
-                                                <img src="assets/img/masterocard.png" alt="">
-                                            </div>
+                                        <div class="row">
                                             <div class="col align-self-center text-end">
                                                 <p class="small">
-                                                    <span class="text-uppercase size-10">WEEK <?= $data['week'] ?></span><br>
+                                                    <h3 class="text-uppercase" style="margin-bottom: -20px; margin-top: -10px;">WEEK <?= $data['week'] ?></h3><br>
                                                     <span class="text-muted" style="font-size: 10px;"><?= $date['start'] . ' - ' . $date['end'] ?></span>
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
+                                                TOTAL ACH
                                                 <h4 class="fw-normal mb-2">
                                                     <?= $total_ach ?>
                                                 </h4>
@@ -130,7 +128,7 @@ use yii\helpers\Url;
                     </div>
                 </div>
                 <div id="chart-container-week"></div>
-                <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
+                <script src="<?= Url::base() ?>/grafik/js/echarts.min.js"></script>
                 <?= $this->render('_grafik_bulanan') ?>
                 <?= $this->render('_grafik_mingguan') ?>
             </div>

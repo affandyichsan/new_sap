@@ -8,10 +8,10 @@ use Yii;
  * This is the model class for table "sap_reconcile".
  *
  * @property int $id_sap_reconcile
- * @property int $id_sap_user
- * @property string $reconcile_json
+ * @property string $nrp
  * @property string $jenis_reconcile
- * @property string $sub_jenis_reconcile
+ * @property string|null $sub_jenis_reconcile
+ * @property string|null $reconcile_json
  * @property string $week
  * @property string $bulan
  * @property string $approvment_departement
@@ -56,15 +56,15 @@ class SapReconcile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['approval_departement', 'approval_she', 'final_approval'], 'default', 'value' => null],
+            [['sub_jenis_reconcile', 'reconcile_json', 'approval_departement', 'approval_she', 'final_approval'], 'default', 'value' => null],
+            [['nrp'], 'default', 'value' => ''],
             [['approvment_final'], 'default', 'value' => 'pending'],
-            [['updated_at'], 'default', 'value' => 'now()'],
-            [['id_sap_user', 'reconcile_json', 'jenis_reconcile', 'sub_jenis_reconcile', 'week', 'bulan'], 'required'],
-            [['id_sap_user', 'approval_departement', 'approval_she', 'final_approval'], 'integer'],
+            [['jenis_reconcile', 'week', 'bulan'], 'required'],
             [['reconcile_json', 'approvment_departement', 'approvment_she', 'approvment_final'], 'string'],
+            [['approval_departement', 'approval_she', 'final_approval'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['nrp', 'week', 'bulan'], 'string', 'max' => 50],
             [['jenis_reconcile', 'sub_jenis_reconcile'], 'string', 'max' => 255],
-            [['week', 'bulan'], 'string', 'max' => 50],
             ['approvment_departement', 'in', 'range' => array_keys(self::optsApprovmentDepartement())],
             ['approvment_she', 'in', 'range' => array_keys(self::optsApprovmentShe())],
             ['approvment_final', 'in', 'range' => array_keys(self::optsApprovmentFinal())],
@@ -78,10 +78,10 @@ class SapReconcile extends \yii\db\ActiveRecord
     {
         return [
             'id_sap_reconcile' => 'Id Sap Reconcile',
-            'id_sap_user' => 'Id Sap User',
-            'reconcile_json' => 'Reconcile Json',
+            'nrp' => 'Nrp',
             'jenis_reconcile' => 'Jenis Reconcile',
             'sub_jenis_reconcile' => 'Sub Jenis Reconcile',
+            'reconcile_json' => 'Reconcile Json',
             'week' => 'Week',
             'bulan' => 'Bulan',
             'approvment_departement' => 'Approvment Departement',
