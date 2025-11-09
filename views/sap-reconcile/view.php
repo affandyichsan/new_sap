@@ -33,11 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_sap_user',
             'reconcile_json:ntext',
             'jenis_reconcile',
+            'sub_jenis_reconcile',
             'week',
             'bulan',
+            'approvment_departement',
+            'approvment_she',
+            'approvment_final',
+            'approval_departement',
+            'approval_she',
+            'final_approval',
             'created_at',
             'updated_at',
-            'approvment',
         ],
     ]) ?>
 

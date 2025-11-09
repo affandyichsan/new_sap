@@ -17,8 +17,8 @@ class SapReconcileSearch extends SapReconcile
     public function rules()
     {
         return [
-            [['id_sap_reconcile', 'id_sap_user'], 'integer'],
-            [['reconcile_json', 'jenis_reconcile', 'week', 'bulan', 'created_at', 'updated_at', 'approvment'], 'safe'],
+            [['id_sap_reconcile', 'id_sap_user', 'approval_departement', 'approval_she', 'final_approval'], 'integer'],
+            [['reconcile_json', 'jenis_reconcile', 'sub_jenis_reconcile', 'week', 'bulan', 'approvment_departement', 'approvment_she', 'approvment_final', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -61,15 +61,21 @@ class SapReconcileSearch extends SapReconcile
         $query->andFilterWhere([
             'id_sap_reconcile' => $this->id_sap_reconcile,
             'id_sap_user' => $this->id_sap_user,
+            'approval_departement' => $this->approval_departement,
+            'approval_she' => $this->approval_she,
+            'final_approval' => $this->final_approval,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'reconcile_json', $this->reconcile_json])
             ->andFilterWhere(['like', 'jenis_reconcile', $this->jenis_reconcile])
+            ->andFilterWhere(['like', 'sub_jenis_reconcile', $this->sub_jenis_reconcile])
             ->andFilterWhere(['like', 'week', $this->week])
             ->andFilterWhere(['like', 'bulan', $this->bulan])
-            ->andFilterWhere(['like', 'approvment', $this->approvment]);
+            ->andFilterWhere(['like', 'approvment_departement', $this->approvment_departement])
+            ->andFilterWhere(['like', 'approvment_she', $this->approvment_she])
+            ->andFilterWhere(['like', 'approvment_final', $this->approvment_final]);
 
         return $dataProvider;
     }

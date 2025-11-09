@@ -11,6 +11,7 @@ use Yii;
  * @property int $id_sap_user
  * @property string $reconcile_json
  * @property string $jenis_reconcile
+ * @property string $sub_jenis_reconcile
  * @property string $week
  * @property string $bulan
  * @property string $approvment_departement
@@ -58,11 +59,11 @@ class SapReconcile extends \yii\db\ActiveRecord
             [['approval_departement', 'approval_she', 'final_approval'], 'default', 'value' => null],
             [['approvment_final'], 'default', 'value' => 'pending'],
             [['updated_at'], 'default', 'value' => 'now()'],
-            [['id_sap_user', 'reconcile_json', 'jenis_reconcile', 'week', 'bulan'], 'required'],
+            [['id_sap_user', 'reconcile_json', 'jenis_reconcile', 'sub_jenis_reconcile', 'week', 'bulan'], 'required'],
             [['id_sap_user', 'approval_departement', 'approval_she', 'final_approval'], 'integer'],
             [['reconcile_json', 'approvment_departement', 'approvment_she', 'approvment_final'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['jenis_reconcile'], 'string', 'max' => 255],
+            [['jenis_reconcile', 'sub_jenis_reconcile'], 'string', 'max' => 255],
             [['week', 'bulan'], 'string', 'max' => 50],
             ['approvment_departement', 'in', 'range' => array_keys(self::optsApprovmentDepartement())],
             ['approvment_she', 'in', 'range' => array_keys(self::optsApprovmentShe())],
@@ -80,6 +81,7 @@ class SapReconcile extends \yii\db\ActiveRecord
             'id_sap_user' => 'Id Sap User',
             'reconcile_json' => 'Reconcile Json',
             'jenis_reconcile' => 'Jenis Reconcile',
+            'sub_jenis_reconcile' => 'Sub Jenis Reconcile',
             'week' => 'Week',
             'bulan' => 'Bulan',
             'approvment_departement' => 'Approvment Departement',

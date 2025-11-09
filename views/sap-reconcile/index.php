@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= Html::encode($model['jenis_reconcile']) ?>
                                 </div>
                                 <div class="text-muted small mb-1">
-                                    <?= Html::encode($model['approvment']) ?>
+                                    <?= Html::encode($model['approvment_final']) ?>
                                 </div>
                                 <div class="text-muted small">
                                     Pengajuan <?= indonesian_date2($model['created_at']) ?>

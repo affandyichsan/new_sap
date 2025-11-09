@@ -9,7 +9,7 @@ use app\models\ActionReconcile;
 /** @var app\models\search\SapReconcileSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 $data = ActionReconcile::listWeek();
-$weekList = array_combine($data, array_map(fn($w) => 'Week ' . $w, $data));
+$weekList = array_combine($data, array_map(fn($w) => 'week ' . $w, $data));
 
 // echo '<pre>';
 // print_r($data);
@@ -36,9 +36,9 @@ $weekList = array_combine($data, array_map(fn($w) => 'Week ' . $w, $data));
                     ]); ?>
 
                     <?= $form->field($model, 'jenis_reconcile')->dropDownList([
-                        '' => 'Jenis Reconcile...',
-                        'roster' => 'Roster',
-                        'sap' => 'SAP',
+                        ''          => 'Jenis Reconcile...',
+                        'roster'    => 'Roster',
+                        'sap'       => 'SAP',
                     ], [
                         'class' => 'form-select shadow-sm rounded-2',
                     ])->label(false) ?>
@@ -46,16 +46,16 @@ $weekList = array_combine($data, array_map(fn($w) => 'Week ' . $w, $data));
                     <?= $form->field($model, 'week')->dropDownList(
                         $weekList, // ini array dari ActionReconcile::listWeek()
                         [
-                            'prompt' => 'Pilih Week',
-                            'class' => 'form-select shadow-sm rounded-2',
+                            'prompt'    => 'Pilih Week',
+                            'class'     => 'form-select shadow-sm rounded-2',
                         ]
                     )->label(false) ?>
 
-                    <?= $form->field($model, 'approvment')->dropDownList([
+                    <?= $form->field($model, 'approvment_final')->dropDownList([
                         '' => 'Pilih Status Approval...',
-                        'Pending' => 'Pending',
-                        'Approved' => 'Approved',
-                        'Rejected' => 'Rejected',
+                        'Pending'   => 'Pending',
+                        'Approved'  => 'Approved',
+                        'Rejected'  => 'Rejected',
                     ], [
                         'class' => 'form-select shadow-sm rounded-2',
                     ])->label(false) ?>
