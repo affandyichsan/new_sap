@@ -5,19 +5,19 @@ use yii\bootstrap5\Html;
 
 // \yii\web\YiiAsset::register($this);
 $data = json_decode($model->reconcile_json);
+
 $timeline = [];
-foreach ($data->tanggal as $row) {
+foreach ($data as $row) {
     $timeline[] = [
-        'color' => 'danger',
-        'title' => $data->kegiatan,
-        'tanggal' => $row
+        'color'     => 'warning',
+        'title'     => $row->kegiatan,
+        'tanggal'   => $row->tanggal,
+        'status'    => $row->status
     ];
 }
 
 $getUser = ActionSap::getDataUser();
-// echo "<pre>";
-// print_r($getUser['departemen']);
-// exit;
+
 echo $this->render('_modal_dialog_id', [
     'id'        => @$datauser->id_sap_reconcile,
     'model'     => $model
@@ -43,7 +43,7 @@ $status3 = ActionSap::getColorBadge($model->approvment_final);
             </div>
             <div class="row mt-4">
                 <div class="col-4">
-                    
+
                     <span class="badge bg-<?= $status1 ?> px-3 py-2 fs-9 shadow-sm"><?= $getUser['departemen'] ?> - <?= $model->approvment_departement ?></span>
                 </div>
                 <div class="col-4">
@@ -81,9 +81,20 @@ $status3 = ActionSap::getColorBadge($model->approvment_final);
                         <div class="me-3 mt-1">
                             <span class="avatar avatar-15 border-<?= $item['color'] ?> rounded-circle d-inline-block" style="width:12px; height:12px;"></span>
                         </div>
-                        <div>
-                            <span class="fw-medium"><?= Html::encode($item['title']) ?></span><br>
-                            <small class="text-muted"><?= Html::encode($item['tanggal']) ?></small>
+                        <div style="width:100%;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 80%;">
+                                        <span class="fw-medium"><?= Html::encode($item['title']) ?></span><br>
+                                        <small class="text-muted"><?= Html::encode($item['tanggal']) ?></small>
+                                    </td>
+                                    <td style="width: 80%;">
+                                        <span class="badge bg-<?= ActionSap::getColorBadge($item['status']) ?> px-3 py-2 fs-10 shadow-sm"><?= $item['status'] ?></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+
                         </div>
                     </li>
                 <?php endforeach; ?>

@@ -104,6 +104,7 @@ class SapReconcileController extends Controller
                     }
                     if ($model->jenis_reconcile != null && $model->sub_jenis_reconcile != null) {
                         if ($model->save()) {
+                            $json = [];
                             foreach ($sapFiles as $img) {
                                 $image                   = new FileImageReconcile();
                                 $image->nrp              = $getUser['nrp'];
@@ -113,7 +114,14 @@ class SapReconcileController extends Controller
                                 $image->filetype         = $img['type'];
                                 $image->filesize         = $img['size'];
                                 $image->save(false);
+                                $json[] = [
+                                    'id_file'   => $image->id_file_image_reconcile,
+                                    'status'    => 'pending',
+                                ];
                             }
+                            $model2                 = SapReconcile::findOne($model->id_sap_reconcile);
+                            $model2->reconcile_json = json_encode($json);
+                            $model2->save(false);
                             Yii::$app->session->setFlash('success', 'renconcile segera di proses');
                             return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
                         }
@@ -126,6 +134,14 @@ class SapReconcileController extends Controller
                         'kegiatan' => $request['RosterData']['kegiatan'],
                         'tanggal'   => $request['reconcile_json']
                     ];
+                    $json = [];
+                    foreach ($request['reconcile_json'] as $data) {
+                        $json[] = [
+                            'tanggal'   => $data,
+                            'kegiatan'  => $request['RosterData']['kegiatan'],
+                            'status'    => 'pending',
+                        ];
+                    }
                     $model->nrp                     = $getUser['nrp'];
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
                     $model->week                    = $request['SapReconcile']['week'];
