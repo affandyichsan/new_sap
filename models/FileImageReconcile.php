@@ -36,7 +36,7 @@ class FileImageReconcile extends \yii\db\ActiveRecord
     {
         return [
             [['update_at'], 'default', 'value' => 'now()'],
-            [['id_sap_reconcile', 'filename', 'filetype', 'filelocation', 'filesize', 'filecontent'], 'required'],
+            [['id_sap_reconcile', 'filename', 'filetype', 'filelocation', 'filesize', 'filecontent','nrp'], 'required'],
             [['id_sap_reconcile', 'filesize'], 'integer'],
             [['filecontent'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

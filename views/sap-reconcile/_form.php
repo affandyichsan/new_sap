@@ -78,6 +78,7 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
                     </div>
                 </div>
 
+                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 mt-3" id="add-item">+ Tambah Tanggal</button>
                 <?= Html::dropDownList("RosterData[kegiatan]", '', [
                     'cuti'          => 'CUTI',
                     'tugas_luar'    => 'TUGAS LUAR',
@@ -86,8 +87,8 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
                     'class' => 'form-select shadow-sm rounded-2 mt-3',
                     'prompt' => '- Pilih Kegiatan -'
                 ]) ?>
-
-                <button type="button" class="btn btn-outline-primary btn-sm rounded-2 mt-3 mb-2" id="add-item">+ Tambah Tanggal</button>
+                <label class="mt-2 mb-0 text-muted">Dokumen Pendukung</label> 
+                <input type="file" class="form-control mb-3" name="FileImages" placeholder="dokumen pendukung" accept=".jpg, .jpeg, .png, .pdf">
             </div>
 
             <!-- Week -->
@@ -132,10 +133,12 @@ function toggleFields() {
 
 // Inisialisasi flatpickr untuk elemen awal
 function initFlatpickr() {
-    flatpickr('.roster-date', {
-        dateFormat: "d/m/Y",
-        allowInput: true,
-        locale: "id"
+    $('.roster-date:not(.flatpickr-input)').each(function() {
+        flatpickr(this, {
+            dateFormat: "d/m/Y",
+            allowInput: true,
+            locale: "id"
+        });
     });
 }
 

@@ -84,19 +84,21 @@ use yii\helpers\Url;
                                 <div class="card <?= @$bg ?>">
                                     <div class="card-body ">
                                         <div class="row">
+                                            <div class="col">
+                                                TOTAL ACH
+                                                <h4 class="fw-normal mb-2">
+                                                    <?= $total_ach ?>
+                                                </h4>
+                                            </div>
                                             <div class="col align-self-center text-end">
                                                 <p class="small">
-                                                    <h3 class="text-uppercase" style="margin-bottom: -20px; margin-top: -10px;">WEEK <?= $data['week'] ?></h3><br>
-                                                    <span class="text-muted" style="font-size: 10px;"><?= $date['start'] . ' - ' . $date['end'] ?></span>
+                                                <h3 class="text-uppercase" style="margin-bottom: -20px; margin-top: -10px;">WEEK <?= $data['week'] ?></h3><br>
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                TOTAL ACH
-                                                <h4 class="fw-normal mb-2">
-                                                    <?= $total_ach ?>
-                                                </h4>
+                                                <span class="text-muted" style="font-size: 10px;"><?= $date['start'] . ' - ' . $date['end'] ?></span>
                                                 <p class="mb-0 text-muted" style="font-size: 9px;">KTA : <?= $data['kta_ach'] ?>% | TTA : <?= $data['tta_ach'] ?>% | OBS : <?= $data['obs_ach'] ?>% | INS : <?= $data['ins_ach'] ?>%</p>
                                                 <p class="mb-0 text-muted" style="font-size: 9px;">WUC : <?= $data['wuc_ach'] ?>% | CC : <?= $data['cc_ach'] ?>% | S MEET : <?= $data['smeet_ach'] ?>% | OPK : <?= $data['opk_ach'] ?>%</p>
                                                 <!-- <p class="text-muted size-12">Debit Card</p> -->

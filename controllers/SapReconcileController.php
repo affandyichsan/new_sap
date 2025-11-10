@@ -61,9 +61,16 @@ class SapReconcileController extends Controller
      */
     public function actionView($id_sap_reconcile)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id_sap_reconcile),
-        ]);
+        $data = $this->findModel($id_sap_reconcile);
+        if ($data->jenis_reconcile == 'roster') {
+            return $this->render('viewRoster', [
+                'model' => $data,
+            ]);
+        } else {
+            return $this->render('viewSap', [
+                'model' => $data,
+            ]);
+        }
     }
 
     /**
@@ -77,6 +84,10 @@ class SapReconcileController extends Controller
 
         if ($this->request->isPost) {
             // echo "<pre>";
+
+            // print_r($_POST);
+            // print_r($_FILES);
+            // exit;
             $getUser = ActionSap::getDataUser();
             // print_r($getUser);
             // exit;
@@ -91,19 +102,24 @@ class SapReconcileController extends Controller
                     if (isset($_FILES['sap_images'])) {
                         $sapFiles = ActionReconcile::normalizeFilesArray($_FILES['sap_images']);
                     }
-                    if ($model->save(false)) {
-                        foreach ($sapFiles as $img) {
-                            $image                   = new FileImageReconcile();
-                            $image->nrp              = $model->id_sap_reconcile;
-                            $image->filecontent      = file_get_contents($img['tmp_name']);
-                            $image->filename         = $img['name'];
-                            $image->filetype         = $img['type'];
-                            $image->filesize         = $img['size'];
-                            if ($image->save(false)) {
-                                Yii::$app->session->setFlash('success', 'renconcile segera di proses');
-                                return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
+                    if ($model->jenis_reconcile != null && $model->sub_jenis_reconcile != null) {
+                        if ($model->save()) {
+                            foreach ($sapFiles as $img) {
+                                $image                   = new FileImageReconcile();
+                                $image->nrp              = $getUser['nrp'];
+                                $image->id_sap_reconcile = $model->id_sap_reconcile;
+                                $image->filecontent      = file_get_contents($img['tmp_name']);
+                                $image->filename         = $img['name'];
+                                $image->filetype         = $img['type'];
+                                $image->filesize         = $img['size'];
+                                $image->save(false);
                             }
+                            Yii::$app->session->setFlash('success', 'renconcile segera di proses');
+                            return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
                         }
+                    } else {
+                        Yii::$app->session->setFlash('danger', 'renconcile gagal di proses');
+                        return $this->redirect(['index']);
                     }
                 } else {
                     $json = [
@@ -112,13 +128,33 @@ class SapReconcileController extends Controller
                     ];
                     $model->nrp                     = $getUser['nrp'];
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
-                    $model->sub_jenis_reconcile     = $request['SapReconcile']['sub_jenis_reconcile'];
                     $model->week                    = $request['SapReconcile']['week'];
                     $model->bulan                   = $request['SapReconcile']['bulan'];
                     $model->reconcile_json          = json_encode($json);
-                    if ($model->save(false)) {
-                        Yii::$app->session->setFlash('success', 'renconcile segera di proses');
-                        return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
+                    // echo "<pre>";
+                    // print_r($request['RosterData']['kegiatan']);
+                    // // print_r($_FILES['FileImages']['size']);
+                    // // print_r($_FILES['FileImages']);
+                    // exit;
+                    if (@$model->jenis_reconcile != null && $request['RosterData']['kegiatan'] != null && $request['reconcile_json'][0] != null && $_FILES['FileImages']['size'] != 0) {
+                        if ($model->save()) {
+                            $img                     = $_FILES['FileImages'];
+                            $image                   = new FileImageReconcile();
+                            $image->nrp              = $getUser['nrp'];
+                            $image->id_sap_reconcile = $model->id_sap_reconcile;
+                            $image->filecontent      = file_get_contents($img['tmp_name']);
+                            $image->filename         = $img['name'];
+                            $image->filetype         = $img['type'];
+                            $image->filesize         = $img['size'];
+
+                            if ($image->save(false)) {
+                                Yii::$app->session->setFlash('success', 'renconcile segera di proses');
+                                return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
+                            }
+                        }
+                    } else {
+                        Yii::$app->session->setFlash('danger', 'renconcile gagal di proses');
+                        return $this->redirect(['index']);
                     }
                 }
                 Yii::$app->session->setFlash('danger', 'renconcile gagal di proses');

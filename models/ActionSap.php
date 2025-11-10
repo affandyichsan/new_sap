@@ -154,4 +154,37 @@ class ActionSap extends Model
         }
         return $months;
     }
+
+    public static function getColorBadge($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'warning';
+                break;
+            case 'rejected':
+                return 'danger';
+                break;
+            case 'approved':
+                return 'success';
+                break;
+            case 'revised':
+                return 'indigo';
+                break;
+        }
+    }
+
+    public static function getIdImage($id_sap_reconcile)
+    {
+        $data = FileImageReconcile::find()->where(['id_sap_reconcile' => $id_sap_reconcile])->asArray()->all();
+        $id_data = [];
+        foreach ($data as $row) {
+            $id_data[] = [
+                'id_file_image_reconcile' => $row['id_file_image_reconcile'],
+                'filename' => $row['filename'],
+                'filetype' => $row['filetype'],
+                'filesize' => $row['filesize'],
+            ];
+        }
+        return $id_data;
+    }
 }

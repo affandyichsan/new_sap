@@ -3,8 +3,10 @@
 namespace app\controllers\rest;
 
 use app\models\FileImage;
+use app\models\FileImageReconcile;
 use app\models\SapUserData;
 use Yii;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 class FileImageController extends \yii\rest\ActiveController
@@ -13,7 +15,7 @@ class FileImageController extends \yii\rest\ActiveController
 
     public function actionUpdateProfileImage()
     {
-        
+
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $userId = Yii::$app->user->identity->id;
 
@@ -28,7 +30,7 @@ class FileImageController extends \yii\rest\ActiveController
 
         // Ambil file yang dikirim
         $uploadedFile = \yii\web\UploadedFile::getInstanceByName('file');
-   
+
         if (!$uploadedFile) {
             return ['success' => false, 'message' => 'File tidak terdeteksi di $_FILES'];
         }
@@ -53,5 +55,25 @@ class FileImageController extends \yii\rest\ActiveController
                 return ['success' => false, 'message' => 'Update Upload Gagal'];
             }
         }
+    }
+
+    public function actionViewReconcile($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $file = FileImageReconcile::findOne($id);
+
+        if (!$file) {
+            return ['status' => 'error', 'message' => 'File tidak ditemukan'];
+        }
+
+        $base64 = base64_encode($file->filecontent);
+        return [
+            'status' => 'success',
+            'filename' => $file->filename,
+            'filetype' => $file->filetype,
+            'filesize' => $file->filesize,
+            'dataUrl' => "data:{$file->filetype};base64,{$base64}"
+        ];
     }
 }

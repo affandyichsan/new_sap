@@ -1,16 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+use app\models\ActionSap;
+use yii\bootstrap5\Html;
 
-/** @var yii\web\View $this */
-/** @var app\models\SapReconcile $model */
-
-$this->title = "Detail Reconcile #" . $model->id_sap_reconcile;
-$this->params['breadcrumbs'][] = ['label' => 'SAP Reconcile', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-
-\yii\web\YiiAsset::register($this);
+// \yii\web\YiiAsset::register($this);
 $data = json_decode($model->reconcile_json);
 $timeline = [];
 foreach ($data->tanggal as $row) {
@@ -21,9 +14,19 @@ foreach ($data->tanggal as $row) {
     ];
 }
 
+$getUser = ActionSap::getDataUser();
 // echo "<pre>";
-// print_r($timeline);
+// print_r($getUser['departemen']);
 // exit;
+echo $this->render('_modal_dialog_id', [
+    'id'        => @$datauser->id_sap_reconcile,
+    'model'     => $model
+]);
+
+
+$status1 = ActionSap::getColorBadge($model->approvment_departement);
+$status2 = ActionSap::getColorBadge($model->approvment_she);
+$status3 = ActionSap::getColorBadge($model->approvment_final);
 ?>
 
 <div class="sap-reconcile-view">
@@ -36,11 +39,30 @@ foreach ($data->tanggal as $row) {
                     <p class="small text-muted mb-1">Proses Approval</p>
                     <h6 class="mb-0 fw-semibold">Admin Departemen</h6>
                 </div>
-                <span class="badge bg-success px-3 py-2 fs-6 shadow-sm">Pending</span>
+                <span class="badge bg-<?= $status3 ?> px-3 py-2 fs-10 shadow-sm"><?= $model->approvment_final ?></span>
+            </div>
+            <div class="row mt-4">
+                <div class="col-4">
+                    
+                    <span class="badge bg-<?= $status1 ?> px-3 py-2 fs-9 shadow-sm"><?= $getUser['departemen'] ?> - <?= $model->approvment_departement ?></span>
+                </div>
+                <div class="col-4">
+                    <span class="badge bg-<?= $status2 ?> px-3 py-2 fs-9 shadow-sm">SHE - <?= $model->approvment_she ?></span>
+                </div>
+                <div class="col-4">
+                    <span class="badge bg-<?= $status3 ?> px-3 py-2 fs-9 shadow-sm">Final - <?= $model->approvment_final ?></span>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="col d-grid mb-3">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary rounded-3" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $model->id_sap_reconcile  ?>">
+            View Dokumen Pendukung
+        </button>
+
+    </div>
     <!-- Card Riwayat Reconcile -->
     <div class="card shadow-sm rounded-3 border-0">
         <div class="card-header bg-white border-bottom py-3">
@@ -76,10 +98,10 @@ foreach ($data->tanggal as $row) {
                         <?= indonesian_date2($model->created_at) ?>
                     </p>
                 </div>
-                <div class="col-auto text-end">
+                <!-- <div class="col-auto text-end">
                     <h6 class="mb-0 fw-semibold text-dark">2:65 min</h6>
                     <p class="text-muted small mb-0">Active hours</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
