@@ -44,7 +44,7 @@ $status3 = ActionSap::getColorBadge($model->approvment_final);
             <div class="row mt-4">
                 <div class="col-4">
 
-                    <span class="badge bg-<?= $status1 ?> px-3 py-2 fs-9 shadow-sm"><?= $getUser['departemen'] ?> - <?= $model->approvment_departement ?></span>
+                    <span class="badge bg-<?= $status1 ?> px-3 py-2 fs-9 shadow-sm"><?= @$getUser['departemen'] ?> - <?= $model->approvment_departement ?></span>
                 </div>
                 <div class="col-4">
                     <span class="badge bg-<?= $status2 ?> px-3 py-2 fs-9 shadow-sm">SHE - <?= $model->approvment_she ?></span>
