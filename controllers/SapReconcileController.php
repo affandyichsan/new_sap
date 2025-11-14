@@ -83,13 +83,13 @@ class SapReconcileController extends Controller
         $model = new SapReconcile();
 
         if ($this->request->isPost) {
-            // echo "<pre>";
+            echo "<pre>";
 
             // print_r($_POST);
             // print_r($_FILES);
             // exit;
             $getUser = ActionSap::getDataUser();
-            // print_r($getUser);
+            // print_r($getUser['departemen']);
             // exit;
             if ($model->load($this->request->post())) {
                 $request = $this->request->post();
@@ -98,6 +98,7 @@ class SapReconcileController extends Controller
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
                     $model->sub_jenis_reconcile     = $request['SapReconcile']['sub_jenis_reconcile'];
                     $model->week                    = $request['SapReconcile']['week'];
+                    $model->departement             = $getUser['departemen'];
                     $model->bulan                   = $request['SapReconcile']['bulan'];
                     if (isset($_FILES['sap_images'])) {
                         $sapFiles = ActionReconcile::normalizeFilesArray($_FILES['sap_images']);
@@ -142,6 +143,8 @@ class SapReconcileController extends Controller
                             'status'    => 'pending',
                         ];
                     }
+                    
+                    $model->departement             = $getUser['departemen'];
                     $model->nrp                     = $getUser['nrp'];
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
                     $model->week                    = $request['SapReconcile']['week'];

@@ -43,7 +43,7 @@ class SapReconcileSearch extends SapReconcile
     public function search($params, $formName = null)
     {
         $data  = ActionSap::getDataUser();
-        $query = SapReconcile::find()->where(['nrp'=>$data['nrp']]);
+        $query = @SapReconcile::find()->where(['nrp'=>$data['nrp']]);
 
         // add conditions that should always apply here
 
