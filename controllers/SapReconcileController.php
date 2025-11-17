@@ -83,10 +83,10 @@ class SapReconcileController extends Controller
         $model = new SapReconcile();
 
         if ($this->request->isPost) {
-            echo "<pre>";
+            // echo "<pre>";
 
             // print_r($_POST);
-            // print_r($_FILES);
+            // print_r(date('Y'));
             // exit;
             $getUser = ActionSap::getDataUser();
             // print_r($getUser['departemen']);
@@ -100,6 +100,7 @@ class SapReconcileController extends Controller
                     $model->week                    = $request['SapReconcile']['week'];
                     $model->departement             = $getUser['departemen'];
                     $model->bulan                   = $request['SapReconcile']['bulan'];
+                    $model->year                    = date('Y');
                     if (isset($_FILES['sap_images'])) {
                         $sapFiles = ActionReconcile::normalizeFilesArray($_FILES['sap_images']);
                     }
@@ -149,6 +150,7 @@ class SapReconcileController extends Controller
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
                     $model->week                    = $request['SapReconcile']['week'];
                     $model->bulan                   = $request['SapReconcile']['bulan'];
+                    $model->year                    = date('Y');
                     $model->reconcile_json          = json_encode($json);
                     // echo "<pre>";
                     // print_r($request['RosterData']['kegiatan']);
