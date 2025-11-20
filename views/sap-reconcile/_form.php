@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\ActionReconcile;
+use app\models\ActionSap;
 
 $data = ActionReconcile::listWeek();
 $weekList = array_combine($data, array_map(fn($w) => 'Week ' . $w, $data));
@@ -10,6 +11,30 @@ $weekList = array_combine($data, array_map(fn($w) => 'Week ' . $w, $data));
 $month = ActionReconcile::listMonth();
 $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaBulan($m), $month));
 
+@$cekOpkObs = ActionSap::cekOPKorOBS(@Yii::$app->user->identity->nrp);
+if ($cekOpkObs == true) {
+    $opkobs = [
+        ''       => 'Jenis SAP',
+        'kta'    => 'KTA',
+        'tta'    => 'TTA',
+        'ins'    => 'Inspeksi',
+        's_meet' => 'Safety Meeting',
+        'wuc'    => 'Wake Up Call',
+        'cc'     => 'Coaching',
+        'opk'    => 'Observasi Pekerjaan Khusus'
+    ];
+} else {
+    $opkobs = [
+        ''       => 'Jenis SAP',
+        'kta'    => 'KTA',
+        'tta'    => 'TTA',
+        'ins'    => 'Inspeksi',
+        's_meet' => 'Safety Meeting',
+        'wuc'    => 'Wake Up Call',
+        'cc'     => 'Coaching',
+        'obs'    => 'Observasi'
+    ];
+}
 ?>
 
 <!-- Flatpickr -->
@@ -20,6 +45,12 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
     <div class="card-body">
         <div class="sap-reconcile-form">
             <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+            <!-- Week -->
+            <?= $form->field($model, 'week')->dropDownList($weekList, [
+                'prompt' => '- Pilih Week -',
+                'class' => 'form-select shadow-sm rounded-2',
+            ])->label(false) ?>
 
             <!-- Jenis Reconcile -->
             <?= $form->field($model, 'jenis_reconcile')->dropDownList([
@@ -33,19 +64,12 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
 
             <!-- Sub Jenis (SAP) -->
             <div id="field-sub-jenis">
-                <?= $form->field($model, 'sub_jenis_reconcile')->dropDownList([
-                    ''       => 'Jenis SAP',
-                    'kta'    => 'KTA',
-                    'tta'    => 'TTA',
-                    'ins'    => 'Inspeksi',
-                    'obs'    => 'Observasi',
-                    's_meet' => 'Safety Meeting',
-                    'wuc'    => 'Wake Up Call',
-                    'cc'     => 'Coaching',
-                    'opk'    => 'Observasi Khusus',
-                ], [
-                    'class' => 'form-select shadow-sm rounded-2',
-                ])->label(false) ?>
+                <?= $form->field($model, 'sub_jenis_reconcile')->dropDownList(
+                    $opkobs,
+                    [
+                        'class' => 'form-select shadow-sm rounded-2',
+                    ]
+                )->label(false) ?>
             </div>
 
             <!-- Upload Gambar (SAP) -->
@@ -87,15 +111,9 @@ $monthList = array_combine($month, array_map(fn($m) => ActionReconcile::getNamaB
                     'class' => 'form-select shadow-sm rounded-2 mt-3',
                     'prompt' => '- Pilih Kegiatan -'
                 ]) ?>
-                <label class="mt-2 mb-0 text-muted">Dokumen Pendukung</label> 
+                <label class="mt-2 mb-0 text-muted">Dokumen Pendukung</label>
                 <input type="file" class="form-control mb-3" name="FileImages" placeholder="dokumen pendukung" accept=".jpg, .jpeg, .png, .pdf">
             </div>
-
-            <!-- Week -->
-            <?= $form->field($model, 'week')->dropDownList($weekList, [
-                'prompt' => '- Pilih Week -',
-                'class' => 'form-select shadow-sm rounded-2',
-            ])->label(false) ?>
 
             <!-- Bulan -->
             <?= $form->field($model, 'bulan')->dropDownList($monthList, [

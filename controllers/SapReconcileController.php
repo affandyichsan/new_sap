@@ -85,9 +85,6 @@ class SapReconcileController extends Controller
         if ($this->request->isPost) {
             // echo "<pre>";
 
-            // print_r($_POST);
-            // print_r(date('Y'));
-            // exit;
             $getUser = ActionSap::getDataUser();
             // print_r($getUser['departemen']);
             // exit;
@@ -132,19 +129,23 @@ class SapReconcileController extends Controller
                         return $this->redirect(['index']);
                     }
                 } else {
+
+                    $week       = ActionSap::getWeekRange($request['SapReconcile']['week'], date('Y'));
+                    $validasi   = ActionReconcile::separateValidInvalidDates($_POST['reconcile_json'], $week['start'], $week['end'], $getUser['nrp'], $request['SapReconcile']['week'], date('Y'));
+
                     $json = [
                         'kegiatan' => $request['RosterData']['kegiatan'],
                         'tanggal'   => $request['reconcile_json']
                     ];
                     $json = [];
-                    foreach ($request['reconcile_json'] as $data) {
+                    foreach ($validasi['valid'] as $data) {
                         $json[] = [
                             'tanggal'   => $data,
                             'kegiatan'  => $request['RosterData']['kegiatan'],
                             'status'    => 'pending',
                         ];
                     }
-                    
+
                     $model->departement             = $getUser['departemen'];
                     $model->nrp                     = $getUser['nrp'];
                     $model->jenis_reconcile         = $request['SapReconcile']['jenis_reconcile'];
@@ -152,12 +153,22 @@ class SapReconcileController extends Controller
                     $model->bulan                   = $request['SapReconcile']['bulan'];
                     $model->year                    = date('Y');
                     $model->reconcile_json          = json_encode($json);
+
+                    // echo "<pre>";
+                    // print_r($validasi);
+                    // print_r($json);
+                    // print_r($model->attributes);
+                    // exit;
                     // echo "<pre>";
                     // print_r($request['RosterData']['kegiatan']);
                     // // print_r($_FILES['FileImages']['size']);
                     // // print_r($_FILES['FileImages']);
                     // exit;
-                    if (@$model->jenis_reconcile != null && $request['RosterData']['kegiatan'] != null && $request['reconcile_json'][0] != null && $_FILES['FileImages']['size'] != 0) {
+                    $notice = '';
+                    if (count($validasi['invalid']) != 0) {
+                        $notice = "dan ada beberapa tanggal tidak sesuai dengan week";
+                    }
+                    if (@$model->jenis_reconcile != null && $request['RosterData']['kegiatan'] != null && $request['reconcile_json'][0] != null && $_FILES['FileImages']['size'] != 0 && count($validasi['valid']) != 0) {
                         if ($model->save()) {
                             $img                     = $_FILES['FileImages'];
                             $image                   = new FileImageReconcile();
@@ -169,12 +180,12 @@ class SapReconcileController extends Controller
                             $image->filesize         = $img['size'];
 
                             if ($image->save(false)) {
-                                Yii::$app->session->setFlash('success', 'renconcile segera di proses');
+                                Yii::$app->session->setFlash('success', 'renconcile segera di proses '.$notice);
                                 return $this->redirect(['view', 'id_sap_reconcile' => $model->id_sap_reconcile]);
                             }
                         }
                     } else {
-                        Yii::$app->session->setFlash('danger', 'renconcile gagal di proses');
+                        Yii::$app->session->setFlash('danger', 'renconcile gagal di proses '.$notice);
                         return $this->redirect(['index']);
                     }
                 }

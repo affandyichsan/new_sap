@@ -113,7 +113,7 @@ use yii\helpers\Url;
 
                 <div class="row">
                     <div class="col">
-                        <h6 class="title">Grafik Total Achievements per Minggu</h6>
+                        <h6 class="title">Grafik Total Achievements per Bulan</h6>
                     </div>
                     <div class="col-auto">
                         <a href="<?= Url::base() ?>/sap-range/perbulan" class="small">View all</a>
@@ -123,7 +123,7 @@ use yii\helpers\Url;
 
                 <div class="row">
                     <div class="col">
-                        <h6 class="title">Grafik Total Achievements per Bulan</h6>
+                        <h6 class="title">Grafik Total Achievements per Minggu</h6>
                     </div>
                     <div class="col-auto">
                         <a href="<?= Url::base() ?>/sap-range/perminggu" class="small">View all</a>

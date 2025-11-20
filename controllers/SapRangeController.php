@@ -54,6 +54,9 @@ class SapRangeController extends \yii\web\Controller
     public function actionPerbulan()
     {
         $listmonth   = ActionSap::getPeriodeMonthly();
+        // echo "<pre>";
+        // print_r($listmonth);
+        // exit;
         return $this->render('index_monthly', [
             'listmonth' => $listmonth
         ]);

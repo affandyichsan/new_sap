@@ -71,9 +71,9 @@ class SapDataView extends \yii\db\ActiveRecord
         return [
             [['id_sap_indicator_plan', 'nrp', 'nrp_bib', 'perusahaan', 'departement', 'jabatan', 'golongan_jabatan', 'week', 'tahun', 'date', 'kta', 'tta', 'obs', 'ins', 's_meet', 'cc', 'wuc', 'opk', 'opk_detail', 'note_per_date', 'kode_area', 'nama_karyawan', 'obs_a', 'ins_a', 'kta_a', 'tta_a', 'wuc_a', 'cc_a', 's_meet_a', 'opk_a', 'opk_a_detail', 'obs_ach', 'ins_ach', 'kta_ach', 'tta_ach', 'wuc_ach', 'cc_ach', 'smeet_ach', 'opk_ach'], 'default', 'value' => null],
             [['date', 'created_at', 'updated_at'], 'safe'],
-            [['kta', 'tta', 'obs', 'ins', 's_meet', 'cc', 'wuc', 'opk', 'obs_a', 'ins_a', 'kta_a', 'tta_a', 'wuc_a', 'cc_a', 's_meet_a', 'opk_a'], 'integer'],
+            [['kta', 'tta', 'obs', 'ins', 's_meet', 'cc', 'wuc', 'opk'], 'integer'],
             [['opk_detail', 'note_per_date', 'kode_area', 'opk_a_detail'], 'string'],
-            [['obs_ach', 'ins_ach', 'kta_ach', 'tta_ach', 'wuc_ach', 'cc_ach', 'smeet_ach', 'opk_ach'], 'number'],
+            [['obs_ach', 'ins_ach', 'kta_ach', 'tta_ach', 'wuc_ach', 'cc_ach', 'smeet_ach', 'opk_ach', 'obs_a', 'ins_a', 'kta_a', 'tta_a', 'wuc_a', 'cc_a', 's_meet_a', 'opk_a'], 'number'],
             [['total_ach'], 'required'],
             [['id_sap_indicator_plan', 'nrp', 'nrp_bib', 'perusahaan', 'departement', 'jabatan', 'golongan_jabatan', 'week', 'tahun'], 'string', 'max' => 50],
             [['nama_karyawan'], 'string', 'max' => 255],

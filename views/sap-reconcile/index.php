@@ -37,14 +37,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="d-flex align-items-center">
                             <div class="rounded-2 d-flex justify-content-center align-items-center bg-<?= $status ?> text-white fw-bold shadow-sm"
                                 style="width: 50px; height: 50px; font-size: 19px;">
-                                <?= Html::encode($model['week']) ?>
+                                <table>
+                                    <tr>
+                                        <td style="align-content: center;font-size: 8px; margin-bottom:-10px;">Week</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <?= Html::encode($model['week']) ?>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <div class="ms-3">
                                 <div class="fw-semibold text-dark" style="font-size: 13px;">
                                     <?= strtoupper(Html::encode($model['jenis_reconcile'])) ?>
                                 </div>
-                                <div class="text-muted small mb-1">
-                                    <?= Html::encode($model['approvment_final']) ?>
+                                <div class="small mb-1">
+                                    <span class="badge bg-<?= $status ?>"> <?= Html::encode($model['approvment_final']) ?> </span>
                                 </div>
                                 <div class="text-muted small">
                                     Pengajuan <?= indonesian_date2($model['created_at']) ?>
@@ -57,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <a href="<?= Url::to(['/sap-reconcile/view?id_sap_reconcile=' . $model->id_sap_reconcile . '']) ?>"
                                 class="btn btn-light border rounded-3 shadow-sm p-2"
                                 style="width: 36px; height: 36px; display:flex; align-items:center; justify-content:center;">
-                                <i class="icofont-list text-<?= $status?>" style="font-size: 16px;"></i>
+                                <i class="icofont-list text-<?= $status ?>" style="font-size: 16px;"></i>
                             </a>
                         </div>
                     </div>
