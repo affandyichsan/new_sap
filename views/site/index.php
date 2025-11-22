@@ -7,8 +7,8 @@ use yii\helpers\Url;
 
 
 $reconcile  = ActionReconcile::ReconcileThisWeek(@$data['week']);
-$total      = ActionReconcile::totalReconcile($reconcile);
-$akumulasi  = ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['opk_n']);
+$total      = ActionReconcile::totalReconcile(@$reconcile);
+$akumulasi  = ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['opk_n']);
 // echo "<pre>";
 // print_r($total);
 // // print_r(count($total['sap']));
@@ -16,28 +16,28 @@ $akumulasi  = ActionReconcile::akumulasiReconcile($data['note_per_date'], $total
 // exit;
 if ($total['roster'] > 0) {
     @$header    = '<div class="col"><b>Rec-Target</b></div>';
-    @$kta       = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['kta_n']) . "</div>";
-    @$tta       = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['tta_n']) . "</div>";
-    @$ins       = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['ins_n']) . "</div>";
-    @$s_meet    = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['s_meet_n']) . "</div>";
-    @$cc        = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['cc_n']) . "</div>";
-    @$wuc       = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['wuc_n']) . "</div>";
+    @$kta       = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['kta_n']) . "</div>";
+    @$tta       = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['tta_n']) . "</div>";
+    @$ins       = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['ins_n']) . "</div>";
+    @$s_meet    = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['s_meet_n']) . "</div>";
+    @$cc        = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['cc_n']) . "</div>";
+    @$wuc       = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['wuc_n']) . "</div>";
     if (count(json_decode($data['opk_detail'])) != 0) {
-        @$opkobsA = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['opk_n']) . "</div>";
+        @$opkobsA = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['opk_n']) . "</div>";
     } else {
-        @$opkobsA = '<div class="col">' . ActionReconcile::akumulasiReconcile($data['note_per_date'], $total['roster'], $data['obs_n']) . "</div>";
+        @$opkobsA = '<div class="col">' . ActionReconcile::akumulasiReconcile(@$data['note_per_date'], $total['roster'], $data['obs_n']) . "</div>";
     }
 }
 
 if ($total['sap'] > 0) {
-    $opka   = (isset($total['sap']['opk'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['opk_a'] + $total['sap']['opk']) . '</span>' : $data['opk_a'];
-    $obsa   = (isset($total['sap']['obs'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['obs_a'] + $total['sap']['obs']) . '</span>' : $data['obs_a'];
-    $ktaa   = (isset($total['sap']['kta'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['kta_a'] + $total['sap']['kta']) . '</span>' : $data['kta_a'];
-    $ttaa   = (isset($total['sap']['tta'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['tta_a'] + $total['sap']['tta']) . '</span>' : $data['tta_a'];
-    $insa   = (isset($total['sap']['ins'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['ins_a'] + $total['sap']['ins']) . '</span>' : $data['ins_a'];
-    $smeeta   = (isset($total['sap']['s_meet'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['s_meet_a'] + $total['sap']['s_meet']) . '</span>' : $data['s_meet_a'];
-    $cca   = (isset($total['sap']['cc'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['cc_a'] + $total['sap']['cc']) . '</span>' : $data['cc_a'];
-    $wuca   = (isset($total['sap']['wuc'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . ($data['wuc_a'] + $total['sap']['wuc']) . '</span>' : $data['wuc_a'];
+    $opka   = (isset($total['sap']['opk'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['opk_a'] + $total['sap']['opk']) . '</span>' : @$data['opk_a'];
+    $obsa   = (isset($total['sap']['obs'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['obs_a'] + $total['sap']['obs']) . '</span>' : @$data['obs_a'];
+    $ktaa   = (isset($total['sap']['kta'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['kta_a'] + $total['sap']['kta']) . '</span>' : @$data['kta_a'];
+    $ttaa   = (isset($total['sap']['tta'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['tta_a'] + $total['sap']['tta']) . '</span>' : @$data['tta_a'];
+    $insa   = (isset($total['sap']['ins'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['ins_a'] + $total['sap']['ins']) . '</span>' : @$data['ins_a'];
+    $smeeta   = (isset($total['sap']['s_meet'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['s_meet_a'] + $total['sap']['s_meet']) . '</span>' : @$data['s_meet_a'];
+    $cca   = (isset($total['sap']['cc'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['cc_a'] + $total['sap']['cc']) . '</span>' : @$data['cc_a'];
+    $wuca   = (isset($total['sap']['wuc'])) ? '<span class="badge bg-info" style="font-size: 12px;">' . (@$data['wuc_a'] + $total['sap']['wuc']) . '</span>' : @$data['wuc_a'];
 }
 
 if (count($reconcile) > 0) {

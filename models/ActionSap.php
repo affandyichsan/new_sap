@@ -142,8 +142,10 @@ class ActionSap extends Model
             $datas[$key]['cc_n']       = $indicator['cc_n'];
             $datas[$key]['wuc_n']      = $indicator['wuc_n'];
             $datas[$key]['opk_n']      = $indicator['opk_n'];
-
+            $datas[$key]['reconcile']  = false;
             if (count($reconcile) > 0) {
+
+                $datas[$key]['reconcile']      = true;
                 $ktaAc      = (isset($total['sap']['kta'])) ? ($data['kta_a'] + $total['sap']['kta']) : $data['kta_a'];
                 $ttaAc      = (isset($total['sap']['tta'])) ? ($data['tta_a'] + $total['sap']['tta']) : $data['tta_a'];
                 $insAc      = (isset($total['sap']['ins'])) ? ($data['ins_a'] + $total['sap']['ins']) : $data['ins_a'];
@@ -221,11 +223,12 @@ class ActionSap extends Model
             ->orderBy(['month' => SORT_DESC])
             ->asArray()
             ->all();
+
         foreach ($datas as $key => $data) {
 
             $reconcile                 = ActionReconcile::ReconcileThisMonth(@$data['month']);
             $total                     = ActionReconcile::totalReconcile($reconcile);
-            $indicator                 = SapIndicatorPlan::findOne($data['id_sap_indicator_plan']);
+            $indicator                 = SapIndicatorPlanMonthly::findOne($data['id_sap_indicator_plan']);;
             $datas[$key]['kta_n']      = $indicator['kta_n'];
             $datas[$key]['tta_n']      = $indicator['tta_n'];
             $datas[$key]['obs_n']      = $indicator['obs_n'];
@@ -234,8 +237,10 @@ class ActionSap extends Model
             $datas[$key]['cc_n']       = $indicator['cc_n'];
             $datas[$key]['wuc_n']      = $indicator['wuc_n'];
             $datas[$key]['opk_n']      = $indicator['opk_n'];
+            $datas[$key]['reconcile']  = false;
 
             if (count($reconcile) > 0) {
+                $datas[$key]['reconcile']      = true;
                 $ktaAc      = (isset($total['sap']['kta'])) ? ($data['kta_a'] + $total['sap']['kta']) : $data['kta_a'];
                 $ttaAc      = (isset($total['sap']['tta'])) ? ($data['tta_a'] + $total['sap']['tta']) : $data['tta_a'];
                 $insAc      = (isset($total['sap']['ins'])) ? ($data['ins_a'] + $total['sap']['ins']) : $data['ins_a'];
@@ -301,10 +306,7 @@ class ActionSap extends Model
                 $datas[$key]['smeet_ach']   = $smeetAch;
                 $datas[$key]['total_ach'] = round(($wucAch + $ccAch + $insAch + $ktaAch + $ttaAch + $smeetAch + $opkobsAch) / 7, 2);
             }
-    // echo "<pre>";
-    // print_r($datas[$key]);
         }
-        // exit;
         return $datas;
     }
 

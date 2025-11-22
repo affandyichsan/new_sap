@@ -293,8 +293,7 @@ class ActionReconcile extends Model
     public static function akumulasiReconcileMonth($arrayCuti, $roster, $sap_n, $month, $year)
     {
         // print_r(ActionReconcile::jumlahHariPadaBulan($month, $year));
-        // print_r($roster);
-        // print_r($sap_n);
+
         // exit;
         $cuti       = json_decode($arrayCuti);
         $totalCuti  = count($cuti);
@@ -303,6 +302,9 @@ class ActionReconcile extends Model
         } else {
             $sap = (((ActionReconcile::jumlahHariPadaBulan($month, $year) - $totalCuti) - $roster) / (ActionReconcile::jumlahHariPadaBulan($month, $year) - $totalCuti)) * $sap_n;
         }
+                // print_r(ActionReconcile::jumlahHariPadaBulan($month, $year)."<br/>");
+                // print_r($sap_n."<br/>");
+        // print_r(ActionReconcile::jumlahHariPadaBulan($month, $year)."<br/>");
         return ActionReconcile::ceilingMath($sap);
     }
 

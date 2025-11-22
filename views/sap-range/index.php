@@ -43,10 +43,6 @@ use yii\helpers\Url;
                     } else {
                         if ($data['total_ach'] > 95) {
                             $bg = 'bg-success';
-                        } elseif ($data['total_ach'] > 60) {
-                            $bg = 'bg-primary';
-                        } elseif ($data['total_ach'] > 50) {
-                            $bg = 'bg-warning';
                         } else {
                             $bg = 'bg-danger';
                         }
@@ -57,16 +53,31 @@ use yii\helpers\Url;
                     <li class="list-group-item <?= $bg ?> text-white">
                         <div class="row">
                             <div class="col-auto">
-                                <figure class="avatar avatar-50 rounded-15 shadow-sm bg-white text-dark">
-                                    <b><?= $data['week'] ?></b>
-                                </figure>
+                                <div class="rounded-2 d-flex justify-content-center align-items-center bg-white text-dark fw-bold shadow-sm"
+                                    style="width: 50px; height: 50px; font-size: 19px;">
+                                    <table>
+                                        <tr>
+                                            <td style="align-content: center;font-size: 8px; margin-bottom:-20px;">Week</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <?= $data['week'] ?>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                             <div class="col px-0">
                                 <p class="text-muted size-12 mt-2" style="margin-bottom: -1px;"><?= $date['start'] ?> to <?= $date['end'] ?></p>
                                 <h6> <?= $total_ach ?></h6>
                             </div>
                             <div class="col-auto text-end">
-                                <a href="<?= Url::base() ?>/sap-range/detail-perminggu?week=<?= $data['week'] ?>" class="btn btn-default btn-44 shadow-sm rounded">
+                                <?php
+                                if ($data['reconcile'] == 1) {
+                                    echo '<span class="badge bg-white text-dark">RECONCILE</span>';
+                                }
+                                ?>
+                                <a href="<?= Url::base() ?>/sap-range/detail-perminggu?week=<?= $data['week'] ?>" class="btn btn-default bg-white text-dark shadow-sm rounded">
                                     <i class="icofont-list"></i>
                                 </a>
                             </div>

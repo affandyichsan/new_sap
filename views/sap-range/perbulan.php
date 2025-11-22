@@ -9,10 +9,6 @@ $reconcile  = ActionReconcile::ReconcileThisMonth(@$data['month']);
 $total      = ActionReconcile::totalReconcile($reconcile);
 $akumulasi  = ActionReconcile::akumulasiReconcileMonth($data['note_per_date'], $total['roster'], $data['opk_n'], $data['month'], $data['year']);
 
-// echo "<pre>";
-// print_r($reconcile);
-// print_r($total);
-// exit;
 if ($total['roster'] > 0) {
     @$header    = '<div class="col"><b>Rec-Target</b></div>';
     @$kta       = '<div class="col">' . ActionReconcile::akumulasiReconcileMonth($data['note_per_date'], $total['roster'], $data['kta_n'], $data['month'], $data['year']) . "</div>";
@@ -70,6 +66,15 @@ if (count($reconcile) > 0) {
     $smeetAch = min(($smeetAc / $recSmeet) * 100, 100);
     $data['total_ach'] = round(($wucAch + $ccAch + $insAch + $ktaAch + $ttaAch + $smeetAch + $opkobsAch) / 7, 2);
 }
+
+// echo "<pre>";
+// print_r($data);
+// print_r($data['ins_a'].' ');
+// print_r($insAc.' ');
+// print_r($recIns.' ');
+// print_r($insAch.' ');
+// print_r($data);
+// exit;
 ?>
 <div class="card shadow-lg rounded-4" style="max-width: 100%;">
     <div class="card-body p-4 justify-content-between align-items-center " style="font-size: 12px;">
